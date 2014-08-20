@@ -4,13 +4,13 @@ from nose.tools import (assert_equal, assert_true)
 from qiutil import logging_helper
 from qiutil.logging_helper import logger
 
-ROOT = os.path.normpath(os.path.join(os.path.dirname(__file__), '..', '..'))
+ROOT = os.path.normpath(os.path.join(os.path.dirname(__file__), '..'))
 """The test parent directory."""
 
-FIXTURE = os.path.join(ROOT, 'fixtures', 'helpers', 'logging', 'logging.yaml')
+FIXTURE = os.path.join(ROOT, 'fixtures', 'logging', 'logging.yaml')
 """The test fixture logging configuration file."""
 
-RESULTS = os.path.join(ROOT, 'results', 'helpers', 'logging')
+RESULTS = os.path.join(ROOT, 'results', 'fixtures', 'logging')
 """The test result parent directory."""
 
 RESULT = os.path.join(RESULTS, 'log', 'qiutil.log')

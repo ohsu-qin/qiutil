@@ -2,19 +2,13 @@
 """
 Downloads or uploads XNAT files.
 """
-
 import sys
 import os
 import re
 import imp
 import argparse
 from collections import defaultdict
-
-# Import the command helper by path, since the log options must be
-# processed before importing any qiutil module.
-cmd = imp.load_source('command',
-                      (os.path.dirname(__file__) +
-                       '/../qiutil/helpers/command.py'))
+from qiutil import command
 
 
 class ArgumentError(Exception):
@@ -33,7 +27,7 @@ def main(argv=sys.argv):
     config = opts.pop('config', None)
 
     # Configure the logger.
-    cmd.configure_log(opts)
+    command.configure_log(opts)
 
     # Import the pyxnat and qiutil pipeline module after configuring
     # the logger.
@@ -97,7 +91,7 @@ def _parse_arguments():
     parser = argparse.ArgumentParser()
 
     # The log options.
-    cmd.add_standard_options(parser)
+    command.add_standard_options(parser)
 
     # The source file(s) or XNAT hierarchy path.
     parser.add_argument('sources', nargs='+', metavar='SOURCE',
@@ -105,7 +99,7 @@ def _parse_arguments():
     parser.add_argument('dest', metavar='DEST',
                         help="the destination directory or XNAT object"
                              " path")
-    
+
     # Parse all arguments.
     args = vars(parser.parse_args())
     # Filter out the empty arguments.

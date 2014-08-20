@@ -3,9 +3,7 @@
 import os
 import tempfile
 import logging
-
-NIPYPE_LOG_DIR_ENV_VAR = 'NIPYPE_LOG_DIR'
-"""The Nipype log directory environment variable."""
+from . import logging_helper
 
 
 def add_standard_options(parser):
@@ -50,19 +48,8 @@ def configure_log(opts):
     """
     log_cfg = {}
     if 'log' in opts:
-        log_file = os.path.abspath(opts.pop('log'))
+        log_file = os.path.abspath(opts.get('log'))
         log_cfg['filename'] = log_file
-        # Set the Nipype log directory environment variable
-        # before importing qiutil. See the comments below.
-        if log_file == '/dev/null':
-          # Nipype requires a log directory. Work around this
-          # limitation by setting it to a new temp dir.
-          log_dir = tempfile.mkdtemp(prefix='qi_')
-        log_dir = os.path.dirname(log_file)
-        if log_dir:
-            if not os.path.exists(log_dir):
-                os.makedirs(log_dir)
-            os.environ[NIPYPE_LOG_DIR_ENV_VAR] = log_dir
     if 'log_level' in opts:
-        log_cfg['level'] = opts.pop('log_level')
+        log_cfg['level'] = opts.get('log_level')
     logging_helper.configure(**log_cfg)

@@ -1,7 +1,35 @@
 import os
 import re
+import subprocess
 import glob
 from setuptools import (setup, find_packages)
+from setuptools.command.install import install
+
+# Note - this setup does not install Git dependencies, due to the
+# following Python install bug:
+# * pip install -e does not support Git requirements.
+# The work-around is to run pip install twice:
+#     pip install -e .
+#     pip install -r requirements.txt
+#
+# Note - the Install class below is one of many attempts to workaround
+# the pip install bug. Unfortunately, Install.run() is not executed
+# even when the following is added to the setup config:
+#     cmdclass={'install': Install}
+# This is perhaps another pip install bug.
+#
+# class Install(install):
+#     """Extend setup install to install Git dependencies."""
+# 
+#     RQMTS = os.path.abspath(os.path.join(os.path.dirname(__file__), 'requirements.txt'))
+#     """The requirements file."""
+# 
+#     CMD = "echo pip install -r %s" % RQMTS
+#     """The install command."""
+# 
+#     def run(self):
+#         install.run(self)
+#         subprocess.call(CMD.split())
 
 VCS_RQMT_PAT = re.compile('^\w+\+\w+:')
 """

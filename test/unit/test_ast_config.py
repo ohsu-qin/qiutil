@@ -4,7 +4,7 @@ from test.helpers.logging_helper import logger
 from qiutil.ast_config import read_config
 from test import ROOT
 
-FIXTURE = os.path.join(ROOT, 'fixtures', 'helpers', 'ast_config', 'tuning.cfg')
+FIXTURE = os.path.join(ROOT, 'fixtures', 'ast_config', 'tuning.cfg')
 """The test fixture configuration file."""
 
 

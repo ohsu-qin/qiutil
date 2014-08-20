@@ -8,10 +8,10 @@ from qiutil.dicom_helper import iter_dicom
 from test import ROOT
 from test.helpers.logging_helper import logger
 
-FIXTURE = os.path.join(ROOT, 'fixtures', 'helpers', 'edit_dicom')
+FIXTURE = os.path.join(ROOT, 'fixtures', 'edit_dicom')
 """The test fixture."""
 
-RESULTS = os.path.join(ROOT, 'results', 'helpers', 'edit_dicom')
+RESULTS = os.path.join(ROOT, 'results', 'fixtures', 'edit_dicom')
 """The test results directory."""
 
 

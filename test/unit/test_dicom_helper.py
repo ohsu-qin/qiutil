@@ -5,7 +5,7 @@ from qiutil import dicom_helper as dcm
 from test.helpers.logging_helper import logger
 
 FIXTURE = os.path.join(os.path.dirname(__file__),
-                       '..', '..', 'fixtures', 'helpers', 'edit_dicom')
+                       '..', 'fixtures', 'edit_dicom')
 """The test image parent directory."""
 
 SBJ_ID = 'Sarcoma002'

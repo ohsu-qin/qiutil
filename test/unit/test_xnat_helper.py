@@ -8,7 +8,7 @@ from test import (project, ROOT)
 from test.helpers.logging_helper import logger
 from test.helpers.xnat_test_helper import generate_unique_name
 
-FIXTURES = os.path.join(ROOT, 'fixtures', 'helpers', 'xnat')
+FIXTURES = os.path.join(ROOT, 'fixtures', 'xnat')
 """The test fixture parent directory."""
 
 SCAN_FIXTURE = os.path.join(FIXTURES, 'dummy_scan.nii.gz')
@@ -17,7 +17,7 @@ SCAN_FIXTURE = os.path.join(FIXTURES, 'dummy_scan.nii.gz')
 REG_FIXTURE = os.path.join(FIXTURES, 'dummy_reg.nii.gz')
 """The registration test fixture."""
 
-RESULTS = os.path.join(ROOT, 'results', 'helpers', 'xnat')
+RESULTS = os.path.join(ROOT, 'results', 'fixtures', 'xnat')
 """The test results directory."""
 
 SUBJECT = generate_unique_name(__name__)

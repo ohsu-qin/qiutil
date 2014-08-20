@@ -49,11 +49,14 @@ Installation
        virtualenv ~/qiutil
        source ~/qiutil/bin/activate
 
-7. Install the ``qiutil`` package::
+7. Install the ``qiutil`` package in two steps::
 
        pip install -e .
+       pip install -r requirements
 
-   This step installs the dependencies in ``requirements.txt``.
+  The first step installs the non-Git dependencies in ``requirements.txt``.
+  The second step installs the remaining Git dependencies in ``requirements.txt``.
+
 
 *****
 Usage
