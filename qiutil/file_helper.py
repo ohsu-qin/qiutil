@@ -73,9 +73,7 @@ class FileIterator(object):
     """
     def __init__(self, *filespecs):
         """
-        :param filespecs:
-          the files, directories or file generators over which
-          to iterate
+        :param filespecs: the files, directories or file generators over which to iterate
         """
         self._filespecs = filespecs
 
