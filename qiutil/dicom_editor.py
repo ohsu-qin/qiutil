@@ -1,6 +1,6 @@
 import os
 from dicom import datadict as dd
-from .dicom_helper import iter_dicom
+from .dicom_reader import iter_dicom
 from .logging_helper import logger
 
 # Uncomment to debug pydicom.
