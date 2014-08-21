@@ -524,8 +524,9 @@ class XNAT(object):
     def __init__(self, config=None):
         """
 
-        :param config: the configuration file, or None to connect with
-            the :meth:`default_configuration`
+        :param config:
+          the configuration file, or None to connect with
+          the :meth:`default_configuration`
         """
         self._logger = logger(__name__)
         self._connect(config)

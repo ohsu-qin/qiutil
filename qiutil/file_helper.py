@@ -67,16 +67,15 @@ def generate_file_name(ext=None):
 
 
 class FileIterator(object):
-
     """
     FileIterator is a generator class which iterates over the files contained
     recursively in the :meth:`__init__` file specifications.
     """
-
     def __init__(self, *filespecs):
         """
-        :param filespecs: the files, directories or file generators over which
-            to iterate
+        :param filespecs:
+          the files, directories or file generators over which
+          to iterate
         """
         self._filespecs = filespecs
 
