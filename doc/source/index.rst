@@ -41,10 +41,10 @@ Installation
        git clone git@quip1:qiutil
 
 4. Install the Python_ pip_ package on your workstation, if necessary.
-   
-5. Install virtualenv_ package on your workstation, if necessary.
+   It is recommended that a virtualenv_ is activated, which includes
+   a localized pip location.
 
-6. On Linux, install the ``libxslt`` dev package. For Ubuntu or other
+5. On Linux, install the ``libxslt`` dev package. For Ubuntu or other
    Debian-based systems, use::
 
        sudo aptitude install libxslt-dev
@@ -53,7 +53,7 @@ Installation
    
        sudo yum install libxslt-dev   
 
-6. Activate a new virtual environment, e.g.::
+6. Activate the virtual environment, e.g.::
 
        virtualenv ~/qiutil
        source ~/qiutil/bin/activate
