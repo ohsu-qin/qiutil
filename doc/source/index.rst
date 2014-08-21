@@ -44,7 +44,8 @@ Installation
    
 5. Install virtualenv_ package on your workstation, if necessary.
 
-6. On Linux, install the packages. For Ubuntu or other Debian-based systems, use::
+6. On Linux, install the ``libxslt`` dev packages. For Ubuntu or other
+   Debian-based systems, use::
 
        sudo aptitude install libxslt-dev
 
