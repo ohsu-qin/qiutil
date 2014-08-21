@@ -53,12 +53,7 @@ Installation
    
        sudo yum install libxslt-dev   
 
-6. Activate the virtual environment, e.g.::
-
-       virtualenv ~/qiutil
-       source ~/qiutil/bin/activate
-
-7. Install the ``qiutil`` package in two steps::
+6. Install the ``qiutil`` package in two steps::
 
        pip install -e .
        pip install -r requirements
