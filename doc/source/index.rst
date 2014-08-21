@@ -44,6 +44,13 @@ Installation
    
 5. Install virtualenv_ package on your workstation, if necessary.
 
+6. On Linux, install the packages. For Ubuntu or other Debian-based systems, use::
+
+      sudo aptitude install libxslt-dev
+
+   For Red Hat, use::
+      sudo yum install libxslt-dev   
+
 6. Activate a new virtual environment, e.g.::
 
        virtualenv ~/qiutil
@@ -91,6 +98,9 @@ Run the following command for the utility options::
 
 .. _qiutil repository: http://quip1.ohsu.edu:6060/qiutil
 
+.. _XNAT: http://www.xnat.org/
+
+.. _virtualenv: http://www.virtualenv.org/
 
 .. toctree::
   :hidden:
