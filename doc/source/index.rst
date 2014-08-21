@@ -46,10 +46,11 @@ Installation
 
 6. On Linux, install the packages. For Ubuntu or other Debian-based systems, use::
 
-      sudo aptitude install libxslt-dev
+       sudo aptitude install libxslt-dev
 
    For Red Hat, use::
-      sudo yum install libxslt-dev   
+   
+       sudo yum install libxslt-dev   
 
 6. Activate a new virtual environment, e.g.::
 
