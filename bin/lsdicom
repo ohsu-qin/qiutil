@@ -19,7 +19,7 @@ def main(argv=sys.argv):
     config = opts.pop('config', None)
 
     # Configure the logger.
-    command.configure_log(opts)
+    command.configure_log('lsdicom', opts)
 
     # Import the qiutil modules after configuring the logger.
     from qiutil.collection_helper import to_series

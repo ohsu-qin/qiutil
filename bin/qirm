@@ -21,7 +21,7 @@ def main(argv=sys.argv):
     config = opts.pop('config', None)
 
     # Configure the logger.
-    command.configure_log(opts)
+    command.configure_log('qirm', opts)
 
     # Import the pyxnat and qiutil pipeline module after configuring
     # the logger.

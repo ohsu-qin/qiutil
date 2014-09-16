@@ -18,12 +18,12 @@ def logger(name):
     """
     # Configure on demand.
     if not hasattr(logger, 'configured'):
-        configure()
+        configure(name)
 
     return logging.getLogger(name)
 
 
-def configure(cfg_file=None, **opts):
+def configure(app, cfg_file=None, **opts):
     """
     Configures the global logger. The logging configuration is obtained from
     from the given keyword arguments and the YAML_ logging configuration files.
@@ -43,12 +43,12 @@ def configure(cfg_file=None, **opts):
     can include the *filename* and *level* short-cuts, which are handled
     as follows:
     
-    - The *filename* is None, then file logging is disabled. Otherwise,
+    - if the *filename* is None, then file logging is disabled. Otherwise,
       the file handler file name is set to the *filename* value.
     
-    - The *level* is set for the ``qiutil`` logger. In addition, if the
-      ``qiutil`` logger has a file handler, then that file handler level
-      is set. Otherwise, the console handler level is set.
+    - The *level* is set for the ``application`` logger. In addition, if
+      the ``application`` logger has a file handler, then that file handler
+      level is set. Otherwise, the console handler level is set.
  
     The logging configuration file ``formatters``, ``handlers`` and
     ``loggers`` sections are updated incrementally. For example, the
@@ -59,11 +59,11 @@ def configure(cfg_file=None, **opts):
     logging configuration file need define only the settings which override
     the default configuration.
     
-    The default logger writes ``INFO`` level messages to a rotating
-    ``log/qiutil.log`` log file and ``ERROR`` level messages to the
-    console. If the file handler is enabled, then this
-    :meth:`qiutil.logging_helper.config` method ensures
-    that the log file parent directory exists.
+    By default, ``ERROR`` level messages are written to the  console.
+    If the log file is set, then the default logger writes ``INFO`` level
+    messages to a rotating log file. If the file handler is enabled, then
+    this :meth:`qiutil.logging_helper.config` method ensures that the log
+    file parent directory exists.
     
     Examples:
     
@@ -110,6 +110,7 @@ def configure(cfg_file=None, **opts):
     
     .. _YAML: http://www.yaml.org
     
+    :param app: the application name
     :param cfg_file: the optional custom configuration YAML file
     :param opts: the logging configuration options, including
         the following short-cuts:
@@ -117,24 +118,25 @@ def configure(cfg_file=None, **opts):
     :keyword level: the file handler log level
     """
     # Load the configuration files.
-    cfg = _load_config(cfg_file)
+    cfg = _load_config(app, cfg_file)
 
     # The options override the configuration files.
     fname = opts.pop('filename', None)
     if fname:
+        # Reset the log file.
         cfg['handlers']['file_handler']['filename'] = fname
     else:
-        cfg['handlers']['file_handler']['filename'] = '/dev/null'
-        cfg['loggers']['qiutil']['handlers'] = ['console']
-    
+        # Disable the file handler and retain only
+        # the console handler.
+        cfg['loggers'][app]['handlers'] = ['console']
     
     # The log level is set in both the logger and the handler,
     # and the more restrictive level applies. Therefore, set
     # the log level in both places.
     level = opts.pop('level', None)
     if level:
-        cfg['loggers']['qiutil']['level'] = level
-        if 'file_handler' in cfg['loggers']['qiutil']['handlers']:
+        cfg['loggers'][app]['level'] = level
+        if 'file_handler' in cfg['loggers'][app]['handlers']:
             cfg['handlers']['file_handler']['level'] = level
         else:
             cfg['handlers']['console']['level'] = level
@@ -143,7 +145,7 @@ def configure(cfg_file=None, **opts):
     _update_config(cfg, opts)
 
     # Ensure that the log file parent directory exists.
-    if 'file_handler' in cfg['loggers']['qiutil']['handlers']:
+    if 'file_handler' in cfg['loggers'][app]['handlers']:
         path = cfg['handlers']['file_handler']['filename']
         log_dir = os.path.dirname(path)
         if log_dir and not os.path.exists(log_dir):
@@ -165,11 +167,11 @@ LOG_CFG_FILE = 'logging.yaml'
 BASE_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 """The ``qiutil`` distribution directory."""
 
-APP_LOG_CFG_PATH = os.path.join(BASE_DIR, 'conf', LOG_CFG_FILE)
+DEF_LOG_CFG_PATH = os.path.join(BASE_DIR, 'conf', LOG_CFG_FILE)
 """The default application logging configuration file path."""
 
 
-def _load_config(cfg_file=None):
+def _load_config(app, cfg_file=None):
     """
     Loads the logger configuration files, as described in
     :meth:`qiutil.logging.configure`.
@@ -178,14 +180,23 @@ def _load_config(cfg_file=None):
     :raises ValueError: if the configuration file argument is specfied but
         does not exist
     """
-    config = _load_config_file(APP_LOG_CFG_PATH)
+    config = _load_config_file(DEF_LOG_CFG_PATH)
+    # Rename the application logger.
+    loggers = config['loggers']
+    loggers[app] = loggers.pop('application')
+    
+    # The environment variable log configuration file.
     env_cfg_file = os.getenv(LOG_CFG_ENV_VAR, None)
     if env_cfg_file and os.path.exists(env_cfg_file):
         env_cfg = _load_config_file(env_cfg_file)
         _update_config(config, env_cfg)
+    
+    # The current directory log configuration file.
     if os.path.exists(LOG_CFG_FILE):
         cwd_cfg = _load_config_file(LOG_CFG_FILE)
         _update_config(config, cwd_cfg)
+    
+    # The argument log configuration file.
     if cfg_file:
         if os.path.exists(cfg_file):
             arg_cfg = _load_config_file(cfg_file)

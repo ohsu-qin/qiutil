@@ -26,7 +26,7 @@ def add_standard_options(parser):
 def add_log_options(parser):
     """
     Adds the standard ``--log``, ``--quiet``, ``--verbose`` and ``--debug``
-    options to the given command line arugment parser.
+    options to the given command line argugment parser.
     """
     parser.add_argument('-l', '--log', help='the log file', metavar='FILE')
     verbosity_grp = parser.add_mutually_exclusive_group()
@@ -38,10 +38,11 @@ def add_log_options(parser):
         action='store_const', const=logging.DEBUG)
 
 
-def configure_log(opts):
+def configure_log(app, opts):
     """
     Configures the logger.
 
+    :param app: the application name
     :param opts: the following keyword options:
     :keyword log: the log file
     :keyword log_level: the log level
@@ -52,4 +53,4 @@ def configure_log(opts):
         log_cfg['filename'] = log_file
     if 'log_level' in opts:
         log_cfg['level'] = opts.get('log_level')
-    logging_helper.configure(**log_cfg)
+    logging_helper.configure(app, **log_cfg)
