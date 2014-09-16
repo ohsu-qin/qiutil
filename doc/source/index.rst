@@ -39,27 +39,27 @@ Installation
 
        cd ~/workspace
        git clone git@quip1:qiutil
+       cd qiutil
 
-4. Install the Python_ pip_ package on your workstation, if necessary.
-   It is recommended that a virtualenv_ is activated, which includes
-   a localized pip location.
+4. Activate an Anaconda_ virtual environment and install pip_, if necessary.
 
-5. On Linux, install the ``libxslt`` dev package. For Ubuntu or other
+5. On Linux only, install the ``libxslt`` dev package. For Ubuntu or other
    Debian-based systems, use::
 
        sudo aptitude install libxslt-dev
 
    For Red Hat, use::
    
-       sudo yum install libxslt-dev   
+       sudo yum install libxslt-dev
 
-6. Install the ``qiutil`` package in two steps::
+6. On Mac only, install the ``lxml`` Python package with statically bound
+   libraries::
+
+       (STATIC_DEPS=true; pip install lxml)
+
+7. Finally, install the ``qiutil`` package::
 
        pip install -e .
-       pip install -r requirements
-
-  The first step installs the non-Git dependencies in ``requirements.txt``.
-  The second step installs the remaining Git dependencies in ``requirements.txt``.
 
 
 *****
@@ -83,6 +83,8 @@ Run the following command for the utility options::
 
 .. Targets:
 
+.. _Anaconda: http://docs.continuum.io/anaconda/
+
 .. _Git: http://git-scm.com
 
 .. _Knight Cancer Institute: http://www.ohsu.edu/xd/health/services/cancer
@@ -96,8 +98,6 @@ Run the following command for the utility options::
 .. _qiutil repository: http://quip1.ohsu.edu:6060/qiutil
 
 .. _XNAT: http://www.xnat.org/
-
-.. _virtualenv: http://www.virtualenv.org/
 
 .. toctree::
   :hidden:
