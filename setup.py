@@ -30,6 +30,13 @@ from setuptools.command.install import install
 #     def run(self):
 #         install.run(self)
 #         subprocess.call(CMD.split())
+#
+# TODO - refactor qiutil as follows:
+# * Split out the xnat stuff into qixnat
+# * Move dicom stuff (incl. project and *hierarchy) and which
+#   back to qipipe
+# * Retain only the core utility helpers in qiutil,
+#   specifically command, logging, config and collection.
 
 VCS_RQMT_PAT = re.compile('^\w+\+\w+:')
 """
