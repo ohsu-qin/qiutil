@@ -806,15 +806,15 @@ class XNAT(object):
 
         where:
 
-        -  the XNAT experiment name is the *session* parameter
+        - the *session* parameter is the XNAT experiment name
 
-        -  CTR_TYPE is the experiment child type ``scan``, ``assessor``
-           or ``reconstruction``
+        - CTR_TYPE is the experiment child type ``scan``, ``assessor``
+          or ``reconstruction``
 
         - CONTAINER is the container name
 
-        -  the default scan RESOURCE is the file format, e.g. ``NIFTI`` or
-           ``DICOM``
+        - the default scan RESOURCE is the file format, e.g. ``NIFTI`` or
+          ``DICOM``
 
         - if ``CTR_TYPE/CONTAINER/`` is missing, then the resource parent
           is the experiment
