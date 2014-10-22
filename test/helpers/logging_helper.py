@@ -5,4 +5,4 @@ debug messages to stdout.
 
 from qiutil.logging_helper import (configure, logger)
 
-configure(filename=None, level='DEBUG')
+configure(app='qiutil', level='DEBUG')
