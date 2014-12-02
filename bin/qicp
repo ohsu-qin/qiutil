@@ -63,16 +63,24 @@ def main(argv=sys.argv):
     if len(path_items) < 2:
         raise ValueError("The search path must include at least two items,"
                          " e.g. Breast003/Session01")
+    # The project is an option.
     prj = opts.pop('project', qiutil.project())
+    # Subject and session are the first items in the XNAT path.
     sbj, sess = path_items[0:2]
+    # Parse the remaining XNAT path items into (type, name) tuples followed by
+    # 'files', e.g. [('scan', '40'), ('resource', 'DICOM'), 'files']
     child_path = xnat_helper.standardize_experiment_child_hierarchy(path_items[2:])
+    
+    # Copy the files.
     with xnat_helper.connection(config) as xnat:
         sess_obj = xnat.get_session(prj, sbj, sess)
         if not sess_obj.exists():
             raise SessionNotFoundError("No such XNAT session: %s %s %s" %
                                        (prj, sbj, sess))
         if direction is 'up':
-            opts = dict(child_path)
+            # Make the upload options from the path, e.g. scan: '40', resource: 'DICOM'.
+            # Omit the last child element element, which is 'files'.
+            opts = dict(child_path[:-1])
             xnat.upload(prj, sbj, sess, *sources, **opts)
         else:
             xnat_objs = xnat_helper.expand_child_hierarchy(sess_obj, child_path)
