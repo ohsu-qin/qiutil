@@ -6,7 +6,6 @@ import struct
 import time
 import calendar
 
-
 SPLITEXT_PAT = re.compile("""
     (.*?)           # The file path without the extension
     (               # The extension group
@@ -43,6 +42,7 @@ def splitexts(path):
     matches += (None,) * (2 - len(matches))
     
     return tuple(matches)
+
 
 def generate_file_name(ext=None):
     """
