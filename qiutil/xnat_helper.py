@@ -773,12 +773,14 @@ class XNAT(object):
             self._logger.debug("The %s %s %s %s resource does not contain any"
                                " files." % (project, subject, session, opts))
 
-        return [self.download_file(file_obj, dest) for file_obj in rsc_files]
+        return [self.download_file(file_obj, dest, **opts) for file_obj in rsc_files]
 
-    def download_file(self, file_obj, dest):
+    def download_file(self, file_obj, dest, **opts):
         """
         :param file_obj: the XNAT File object
         :param dest: the target directory
+        :param opts: the following option:
+        :option force: overwrite existing file
         :return: the downloaded file path
         """
         fname = file_obj.label()
@@ -786,6 +788,11 @@ class XNAT(object):
             raise XNATError("XNAT file object does not have a name: %s" %
                             file_obj)
         tgt = os.path.join(dest, fname)
+        if os.path.exists(tgt):
+            if opts.get('skip_existing'):
+                return tgt
+            elif not opts.get('force'):
+                raise ValueError("Download target file already exists: %s" % tgt)
         self._logger.debug("Downloading the XNAT file %s to %s..." %
                            (fname, dest))
         file_obj.get(tgt)
@@ -860,7 +867,7 @@ class XNAT(object):
             the file extension)
         :keyword inout: the container ``in``/``out`` option
             (default ``out`` for a container type that requires this option)
-        :keyword overwrite: flag indicating whether to replace an existing
+        :keyword force: flag indicating whether to replace an existing
             file (default False)
         :return: the new XNAT file names
         :raise XNATError: if the project does not exist
@@ -894,7 +901,7 @@ class XNAT(object):
         rsc_obj = self.find(project, subject, session, create=True,
                             resource=rsc, **opts)
 
-        # Upload each file.
+        # Upload the files.
         self._logger.debug("Uploading %d %s %s %s %s files to XNAT..." %
                            (len(in_files), project, subject, session,
                             rsc_obj.label()))
@@ -1329,9 +1336,12 @@ class XNAT(object):
         # The resource parent container.
         rsc_ctr = resource.parent()
         # Check for an existing file.
-        if exists(file_obj) and not opts.get('overwrite'):
-            raise XNATError("The XNAT file object %s already exists in the %s"
-                            " resource" % (fname, resource.label()))
+        if exists(file_obj):
+            if opts.get('skip_existing'):
+                return fname
+            elif not opts.get('force'):
+                raise XNATError("The XNAT file object %s already exists in the"
+                                " %s resource" % (fname, resource.label()))
 
         # Upload the file.
         rsc_ctr_type = rsc_ctr.__class__.__name__.lower()
