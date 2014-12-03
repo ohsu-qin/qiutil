@@ -790,6 +790,9 @@ class XNAT(object):
         tgt = os.path.join(dest, fname)
         if os.path.exists(tgt):
             if opts.get('skip_existing'):
+                if opts.get('force'):
+                    raise XNATError('The XNAT download option --skip_existing'
+                                    ' is incompatible with the --force option')
                 return tgt
             elif not opts.get('force'):
                 raise ValueError("Download target file already exists: %s" % tgt)
@@ -1338,6 +1341,9 @@ class XNAT(object):
         # Check for an existing file.
         if exists(file_obj):
             if opts.get('skip_existing'):
+                if opts.get('force'):
+                    raise XNATError('The XNAT upload option --skip_existing is'
+                                    ' incompatible with the --force option')
                 return fname
             elif not opts.get('force'):
                 raise XNATError("The XNAT file object %s already exists in the"
