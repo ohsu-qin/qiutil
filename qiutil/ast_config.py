@@ -2,7 +2,7 @@ import os
 import re
 import ast
 from ConfigParser import ConfigParser as Config
-from qiutil.collection_helper import to_series
+from .collection_helper import to_series
 
 from .logging_helper import logger
 
