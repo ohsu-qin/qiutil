@@ -1,6 +1,10 @@
 This history lists major release themes. See the GitHub commits
 (http://quip1:6060/qiutil) for change details.
 
+1.2.2 / 2014-12-05
+------------------
+* Add nested_defaultdict function.
+
 1.2.1 / 2014-12-04
 ------------------
 * Refactor dicom_helper into the dicom module.
