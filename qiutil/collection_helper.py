@@ -1,4 +1,4 @@
-from collections import Iterable
+from collections import (Iterable, defaultdict)
 
 
 def is_nonstring_iterable(obj):
@@ -31,6 +31,24 @@ def to_series(items, conjunction='and'):
         return suffix
     else:
         return (' ' + conjunction + ' ').join([prefix, suffix])
+
+def nested_defaultdict(factory, levels):
+    """
+    Makes a defaultdict for the given factory and number of levels, e.g.::
+    
+        >> dd(list, 0)[1]
+        []
+        >> dd(dict, 2)[1][2][3]
+        {}
+    
+    :param factory: the 0th level defaultdict factory.
+    :param levels: the number of levels
+    """
+    # The recursive nested dictionary generator, where f is the factory
+    # and n is the number of levels.
+    dd = lambda f, n: defaultdict((lambda: dd(f, n - 1)) if n else f)
+    
+    return dd(factory, levels)
 
 
 class ImmutableDict(dict):
