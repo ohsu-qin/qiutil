@@ -28,9 +28,9 @@ class TestLoggingHelper(object):
         shutil.rmtree(RESULTS, True)
 
     def test_filename(self):
-        logging_helper.configure(filename=RESULT)
-        logger('qiutil').info("Test info log message.")
-        logger('qiutil').debug("Test debug log message.")
+        logging_helper.configure('test', filename=RESULT)
+        logger('test').info("Test info log message.")
+        logger('test').debug("Test debug log message.")
         assert_true(os.path.exists(RESULT),
                     "The log file was not created: %s" % RESULT)
         with open(RESULT) as fs:
@@ -39,9 +39,9 @@ class TestLoggingHelper(object):
         assert_equal(len(msgs), 1, "Extraneous log messages in %s" % RESULT)
 
     def test_level(self):
-        logging_helper.configure(filename=RESULT, level='DEBUG')
-        logger('qiutil').info("Test info log message.")
-        logger('qiutil').debug("Test debug log message.")
+        logging_helper.configure('test', filename=RESULT, level='DEBUG')
+        logger('test').info("Test info log message.")
+        logger('test').debug("Test debug log message.")
         assert_true(os.path.exists(RESULT),
                     "The log file was not created: %s" % RESULT)
         with open(RESULT) as fs:

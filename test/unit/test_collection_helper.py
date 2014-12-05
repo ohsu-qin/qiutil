@@ -1,13 +1,13 @@
 import os
 import glob
 from nose.tools import (assert_equal, assert_raises, assert_true, assert_false)
-from test.helpers.logging_helper import logger
+from ..helpers.logging_helper import logger
 from qiutil.collection_helper import *
 
 
 class TestCollectionHelper(object):
 
-    """dicom_helper unit tests."""
+    """dicom unit tests."""
 
     def test_is_nonstring_iterable(self):
         assert_true(is_nonstring_iterable(
