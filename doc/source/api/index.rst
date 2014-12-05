@@ -22,24 +22,10 @@ helpers
     :members:
     :show-inheritance:
 
-:mod:`dicom_editor`
+:mod:`dicom`
 -------------------
 
-.. automodule:: qiutil.dicom_editor
-    :members:
-    :show-inheritance:
-
-:mod:`dicom_helper`
--------------------
-
-.. automodule:: qiutil.dicom_helper
-    :members:
-    :show-inheritance:
-
-:mod:`dicom_reader`
--------------------
-
-.. automodule:: qiutil.dicom_reader
+.. automodule:: qiutil.dicom
     :members:
     :show-inheritance:
 
@@ -54,13 +40,6 @@ helpers
 ------------------
 
 .. automodule:: qiutil.file_helper
-    :members:
-    :show-inheritance:
-
-:mod:`image_hierarchy`
-----------------------
-
-.. automodule:: qiutil.image_hierarchy
     :members:
     :show-inheritance:
 

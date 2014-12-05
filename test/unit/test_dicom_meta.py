@@ -3,21 +3,19 @@ import glob
 import shutil
 from nose.tools import (assert_equal, assert_true)
 from dicom import datadict as dd
-from qiutil.dicom_helper import edit_dicom_headers
-from qiutil.dicom_helper import iter_dicom
+from qiutil.dicom import (reader, meta)
 from test import ROOT
-from test.helpers.logging_helper import logger
+from ..helpers.logging_helper import logger
 
-FIXTURE = os.path.join(ROOT, 'fixtures', 'edit_dicom')
+FIXTURE = os.path.join(ROOT, 'fixtures', 'dicom')
 """The test fixture."""
 
-RESULTS = os.path.join(ROOT, 'results', 'fixtures', 'edit_dicom')
+RESULTS = os.path.join(ROOT, 'results', 'fixtures', 'dicom')
 """The test results directory."""
 
 
-class TestEditDicom(object):
-
-    """DICOM edit unit tests."""
+class TestDicomMeta(object):
+    """The dicom editor unit tests."""
 
     def setUp(self):
         shutil.rmtree(RESULTS, True)
@@ -25,7 +23,7 @@ class TestEditDicom(object):
     def tearDown(self):
         shutil.rmtree(RESULTS, True)
 
-    def test_edit_dicom_files(self):
+    def test_edit_metadata(self):
         # The tag name => value map.
         tnv = dict(PatientID='Test Patient', BodyPartExamined='HIP')
 
@@ -33,10 +31,10 @@ class TestEditDicom(object):
         tv = {dd.tag_for_name(name): value for name, value in tnv.iteritems()}
 
         # Edit the headers.
-        files = set(edit_dicom_headers(RESULTS, FIXTURE, **tnv))
+        files = set(meta.edit(RESULTS, FIXTURE, **tnv))
 
         # Verify the result.
-        for ds in iter_dicom(RESULTS):
+        for ds in reader.iter_dicom(RESULTS):
             assert_true(ds.filename in files)
             for t, v in tv.iteritems():
                 assert_equal(v, ds[t].value)

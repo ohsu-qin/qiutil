@@ -1,17 +1,45 @@
+# Absolute import (standard in Python 3) imports dicom from pydicom
+# rather than the parent module.
+from __future__ import absolute_import
 import os
+import re
+import operator
 from dicom import datadict as dd
-from .dicom_reader import iter_dicom
-from .logging_helper import logger
+from . import reader
+from ..logging_helper import logger
 
 # Uncomment to debug pydicom.
 # import dicom
 # dicom.debug(True)
 
+def select(ds, *tags):
+    """
+    Reads the given DICOM dataset tags.
+    
+    :param ds: the pydicom dicom object
+    :param tags: the names of tags to read (default all unbracketed tags)
+    :return: the tag name => value dictionary
+    """
+    if not tags:
+        # Skip tags with a bracketed name.
+        tags = (de.name for de in ds if de.name[0] != '[')
+    tdict = {}
+    for t in tags:
+        try:
+            # The tag attribute.
+            tattr = re.sub('\W', '', t)
+            # Collect the tag value.
+            tdict[t] = operator.attrgetter(tattr)(ds)
+        except AttributeError:
+            pass
+    
+    return tdict
 
-def edit_dicom_headers(dest, *dicom_files, **tag_values):
+
+def edit(dest, *dicom_files, **tag_values):
     """
     Sets the tags of the given DICOM files.
-    
+
     :param dest: the directory in which to write the modified DICOM files
     :param dicom_files: the files or directories containing the input DICOM files
     :param tag_values: the DICOM header (I{name}, I{value}) tag values to set
@@ -31,7 +59,7 @@ def edit_dicom_headers(dest, *dicom_files, **tag_values):
         "Editing the DICOM files with the following tag values: %s..." % tag_values)
     # Open the DICOM store on each DICOM file (skipping non-DICOM files),
     # set the tag values and save to a new file in the destination directory.
-    for ds in iter_dicom(*dicom_files):
+    for ds in reader.iter_dicom(*dicom_files):
         for t, v in tv.iteritems():
             if t in ds:
                 ds[t].value = v
