@@ -1,6 +1,10 @@
 This history lists major release themes. See the GitHub commits
 (http://quip1:6060/qiutil) for change details.
 
+1.2.1 / 2014-12-04
+------------------
+* Refactor dicom_helper into the dicom module.
+
 1.1.3 / 2014-12-02
 ------------------
 * Fix qicp.
