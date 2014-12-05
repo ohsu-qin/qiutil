@@ -5,6 +5,8 @@ import base64
 import struct
 import time
 import calendar
+import gzip
+from contextlib import contextmanager
 
 SPLITEXT_PAT = re.compile("""
     (.*?)           # The file path without the extension
@@ -18,6 +20,29 @@ Regexp pattern that splits the name and extension.
 
 :see: :meth:`splitexts`
 """
+
+
+
+@contextmanager
+def open_file(filename):
+    """
+    Opens the given file. If the file extension ends in ``.gz``,
+    then the content is uncompressed.
+
+    :param filename: the file path
+    :return: the file input stream
+    :raise: IOError if the file cannot be read
+    """
+    _, ext = os.path.splitext(filename)
+    # The gzip or normal file open context function.
+    if ext == '.gz':
+        context = gzip.open
+    else:
+        context = open
+
+    # Open the file.
+    with context(filename) as fp:
+        yield fp
 
 
 def splitexts(path):
