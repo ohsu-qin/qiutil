@@ -7,8 +7,8 @@ import sys
 import imp
 import argparse
 from collections import defaultdict
-import dicom
 from qiutil import command
+from qiutil.dicom import (reader, meta)
 
 
 def main(argv=sys.argv):
@@ -22,12 +22,8 @@ def main(argv=sys.argv):
     command.configure_log('lsdicom', opts)
 
     # Import the qiutil modules after configuring the logger.
-    from qiutil.collection_helper import to_series
-    from qiutil.dicom_helper import (iter_dicom_headers,
-                                             select_dicom_tags)
-    global iter_dicom_headers, select_dicom_tags
-    from qiutil.image_hierarchy import ImageHierarchy
-    global ImageHierarchy
+    from qiutil import dicom
+    global dicom
     from qiutil.logging_helper import logger
     global logger
 
@@ -105,7 +101,7 @@ def _print_tag_values(*files, **opts):
 
     if len(files) == 1:
         # The DICOM data set.
-        ds = next(hdr for hdr in iter_dicom_headers(*files))
+        ds = next(hdr for hdr in reader.iter_dicom_headers(*files))
         # The DICOM tag value dictionary.
         tdict = _read_tags(ds, *tags)
         tag_col_len = max([len(tag) for tag in tags])
@@ -118,7 +114,7 @@ def _print_tag_values(*files, **opts):
     if opts.get('header'):
         print >> output, '\t'.join(tags)
 
-    for ds in iter_dicom_headers(*files):
+    for ds in reader.iter_dicom_headers(*files):
         # The DICOM tag value dictionary.
         tdict = _read_tags(ds, *tags)
         # If there is at least one tag with a valid value, then print
@@ -142,7 +138,7 @@ def _collect_default_tags(*files):
     :return: the tags with a valid value
     """
     tag_set = set()
-    for ds in iter_dicom_headers(*files):
+    for ds in reader.iter_dicom_headers(*files):
         tdict = _read_tags(ds)
         tag_set.update(tdict.iterkeys())
 
@@ -162,7 +158,7 @@ def _read_tags(ds, *tags):
     :param tags: the DICOM tags to read (default all tags)
     :return: the filtered tag dictionary
     """
-    tdict = select_dicom_tags(ds, *tags)
+    tdict = meta.select_tags(ds, *tags)
     return {t: v for t, v in tdict.iteritems() if v and '\n' not in str(v)}
 
 if __name__ == '__main__':
