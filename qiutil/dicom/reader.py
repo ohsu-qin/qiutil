@@ -51,7 +51,7 @@ class DicomIterator(FileIterator):
                 try:
                     yield dicom.read_file(fp, **self.opts)
                 except InvalidDicomError:
-                    logger(__name__).info("Skipping non-DICOM file %s" % f)
+                    logger(__name__).info("Skipping non-DICOM file %s" % filename)
 
 
 class DicomHeaderIterator(DicomIterator):
