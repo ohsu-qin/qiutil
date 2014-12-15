@@ -1,8 +1,9 @@
-qiutil - OHSU QIN pipeline
-==========================
+qiutil - common helper functions
+================================
 
-qiutil processes the OHSU QIN study images. See the `documentation`_ for more information.
+qiutil provides helper functions for the ohsu-qin projects.
+See the `documentation`_ for more information.
 
 .. Targets:
 
-.. _documentation: http://quip1.ohsu.edu:8080/qiutil
+.. _documentation: https://readthedocs.org/projects/qiutil/
