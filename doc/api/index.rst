@@ -4,10 +4,6 @@
 API Documentation
 =================
 
-=======
-helpers
-=======
-
 :mod:`ast_config`
 -----------------
 
