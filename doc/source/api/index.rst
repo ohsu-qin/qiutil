@@ -15,17 +15,17 @@ helpers
     :members:
     :show-inheritance:
 
-:mod:`collection_helper`
+:mod:`collections`
 ------------------------
 
-.. automodule:: qiutil.collection_helper
+.. automodule:: qiutil.collections
     :members:
     :show-inheritance:
 
-:mod:`dicom`
--------------------
+:mod:`command`
+------------------------
 
-.. automodule:: qiutil.dicom
+.. automodule:: qiutil.command
     :members:
     :show-inheritance:
 
@@ -36,24 +36,17 @@ helpers
     :members:
     :show-inheritance:
 
-:mod:`file_helper`
+:mod:`file`
 ------------------
 
-.. automodule:: qiutil.file_helper
+.. automodule:: qiutil.file
     :members:
     :show-inheritance:
 
-:mod:`logging_helper`
+:mod:`logging`
 ----------------------
 
-.. automodule:: qiutil.logging_helper
-    :members:
-    :show-inheritance:
-
-:mod:`project`
-----------------------
-
-.. automodule:: qiutil.project
+.. automodule:: qiutil.logging
     :members:
     :show-inheritance:
 
@@ -63,18 +56,3 @@ helpers
 .. automodule:: qiutil.which
     :members:
     :show-inheritance:
-
-:mod:`xnat_config`
-------------------
-
-.. automodule:: qiutil.xnat_config
-    :members:
-    :show-inheritance:
-
-:mod:`xnat_helper`
-------------------
-
-.. automodule:: qiutil.xnat_helper
-    :members:
-    :show-inheritance:
-
