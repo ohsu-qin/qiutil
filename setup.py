@@ -31,8 +31,11 @@ setup(
     version = version('qiutil'),
     author = 'OHSU Knight Cancer Institute',
     author_email = 'loneyf@ohsu.edu',
+    platforms = 'Any',
+    license = 'MIT',
+    keywords = 'Imaging QIN',
     packages = find_packages(exclude=['test**']),
-    data_files=[('config', glob.glob('conf/*.cfg'))],
+    data_files = [('config', glob.glob('conf/*.cfg'))],
     url = 'https://github.com/ohsu-qin/qiutil',
     description = 'Quantitative Imaging helper utilities.',
     long_description = readme(),
@@ -41,11 +44,9 @@ setup(
         'Topic :: Scientific/Engineering :: Bio-Informatics',
         'Environment :: Console',
         'Intended Audience :: Science/Research',
-        'License :: Other/Proprietary License',
+        'License :: OSI Approved :: MIT License',
         'Operating System :: OS Independent',
-        'Programming Language :: Python',
-        'Programming Language :: Python :: 2.6',
-        'Programming Language :: Python :: 2.7',
+        'Programming Language :: Python'
     ],
     install_requires = requires()
 )
