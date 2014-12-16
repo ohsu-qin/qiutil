@@ -6,4 +6,4 @@ See the `documentation`_ for more information.
 
 .. Targets:
 
-.. _documentation: https://readthedocs.org/projects/qiutil/
+.. _documentation: http://qiutil.readthedocs.org/en/latest/

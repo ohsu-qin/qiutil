@@ -7,9 +7,9 @@ qiutil - Quantitative Imaging Utilities
 ********
 Synopsis
 ********
-qiutil provides helper modules for processing images.
+qiutil provides general-purpose utilities for the `OHSU QIN`_ projects.
 
-:API: https://readthedocs.org/projects/qiutil/
+:API: http://qiutil.readthedocs.org/en/latest/api/index.html
 
 :Git: github.com/ohsu-qin/qiutil
 
@@ -45,6 +45,8 @@ Add ``qiutil`` to your Python_ project setup.py ``install_requires``.
 .. _Knight Cancer Institute: http://www.ohsu.edu/xd/health/services/cancer
 
 .. _Python: http://www.python.org
+
+.. _OHSU QIN: https://github.com/ohsu-qin
 
 .. toctree::
   :hidden:
