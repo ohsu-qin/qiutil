@@ -1,7 +1,7 @@
 This history lists major release themes. See the GitHub commits
 (http://quip1:6060/qiutil) for change details.
 
-1.3.1 / 2014-12-15
+2.1.1 / 2014-12-15
 ------------------
 * Split out qixnat and qidicom.
 
