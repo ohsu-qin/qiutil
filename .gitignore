@@ -10,6 +10,7 @@ ext
 .idea
 .loadpath
 .project
+.pypirc
 .yardoc
 .*/
 *.pdf
