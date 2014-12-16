@@ -9,78 +9,28 @@ Synopsis
 ********
 qiutil provides helper modules for processing images.
 
-:API: http://quip1.ohsu.edu:8080/qiutil/api
+:API: https://readthedocs.org/projects/qiutil/
 
-:Git: git\@quip1.ohsu.edu:qiutil
-      (`Browse <http://quip1.ohsu.edu:6060/qiutil>`__)
+:Git: github.com/ohsu-qin/qiutil
 
 
 ************
 Feature List
 ************
-1. XNAT_ facade API.
+1. Python logging configuration.
 
-2. XNAT list, transfer and delete.
+2. Command logging options.
 
-3. DICOM metadata list and edit.
+3. Collection data structures and utilities. 
 
-4. Python logging configuration.
+4. File helper functions.
 
 
 ************
 Installation
 ************
-1. Install Git_ on your workstation, if necessary.
+Add ``qiutil`` to your Python project setup.py ``install_requires``.
 
-2. Contact the qiutil `OHSU QIN Git administrator`_ to get permission to
-   access the qiutil Git repository.
-
-3. Clone the `qiutil repository`_::
-
-       cd ~/workspace
-       git clone git@quip1:qiutil
-       cd qiutil
-
-4. Activate an Anaconda_ virtual environment, e.g.::
-
-       source activate qipipe
-
-5. On Linux only, install the ``libxslt`` dev package. For Ubuntu or other
-   Debian-based systems, use::
-
-       sudo aptitude install libxslt-dev
-
-   For Red Hat, use::
-   
-       sudo yum install libxslt-dev
-
-6. On Mac only, install the ``lxml`` Python package with statically bound
-   libraries::
-
-       (STATIC_DEPS=true; pip install lxml)
-
-7. Install the Anaconda packages::
-
-       for p in `cat requirements.txt`; do conda install $p; done 
-
-7. Install the remaining packages using pip_::
-
-       pip install -r requirements.txt
-
-8. Finally, install the ``qiutil`` package::
-
-       pip install -e .
-
-
-*****
-Usage
-*****
-Run the following command for the utility options::
-
-    lsdicom --help
-    qicp --help
-    qils --help
-    qirm --help
 
 ---------
 

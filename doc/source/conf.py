@@ -10,7 +10,7 @@ project = u'qiutil'
 copyright = u'2014, OHSU Knight Cancer Institute'
 version = qiutil.__version__
 pygments_style = 'sphinx'
-html_theme = 'qiutil_theme'
+html_theme = 'theme'
 html_theme_path = ['.']
 html_theme_options = dict(linkcolor='DarkSkyBlue', visitedlinkcolor='Navy')
 htmlhelp_basename = 'qiutildoc'
