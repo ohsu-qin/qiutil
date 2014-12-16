@@ -1,7 +1,3 @@
-httplib2==0.9
-lxml
 nose==1.3.0
-pydicom==0.9.8
 PyYAML==3.11
-pyxnat==0.9.5.2
 Sphinx==1.2.2
