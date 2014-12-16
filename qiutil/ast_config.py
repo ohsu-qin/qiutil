@@ -2,9 +2,9 @@ import os
 import re
 import ast
 from ConfigParser import ConfigParser as Config
-from .collection_helper import to_series
+from .collections import to_series
 
-from .logging_helper import logger
+from .logging import logger
 
 
 def read_config(*filenames):

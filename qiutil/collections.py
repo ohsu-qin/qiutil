@@ -1,3 +1,7 @@
+# Absolute import (the default in a future Python release) resolves
+# the collections import as the Python standard collections module
+# rather than this module of the same name.
+from __future__ import absolute_import
 from collections import (Iterable, defaultdict)
 
 

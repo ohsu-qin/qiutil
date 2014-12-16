@@ -1,4 +1,4 @@
-from .collection_helper import is_nonstring_iterable
+from .collections import is_nonstring_iterable
 
 
 def on(root):

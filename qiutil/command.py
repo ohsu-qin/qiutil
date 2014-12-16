@@ -1,26 +1,13 @@
 """Command helper functions."""
 
+# Absolute import (the default in a future Python release) resolves
+# the logging import as the Python standard logging module rather
+# than qiutil.logging.
+from __future__ import absolute_import
 import os
 import tempfile
-import logging
-from . import logging_helper
-
-
-def add_standard_options(parser):
-    """
-    Adds the :meth:`add_log_options`, ``--project`` and ``--config``
-    options to the given command line arugment parser.
-    """
-    # The log options.
-    add_log_options(parser)
-    
-    # The XNAT project.
-    parser.add_argument('-p', '--project',
-                        help="the XNAT project (default is 'QIN')")
-    
-    # The XNAT configuration.
-    parser.add_argument('-c', '--config', help='the XNAT configuration file',
-                        metavar='FILE')
+from logging import (ERROR, DEBUG)
+from .logging import configure
 
 
 def add_log_options(parser):
@@ -32,10 +19,10 @@ def add_log_options(parser):
     verbosity_grp = parser.add_mutually_exclusive_group()
     verbosity_grp.add_argument(
         '-q', '--quiet', help="only log error messages", dest='log_level',
-        action='store_const', const=logging.ERROR)
+        action='store_const', const=ERROR)
     verbosity_grp.add_argument(
         '-d', '--debug', help='log debug messages', dest='log_level',
-        action='store_const', const=logging.DEBUG)
+        action='store_const', const=DEBUG)
 
 
 def configure_log(app, opts):
@@ -53,4 +40,4 @@ def configure_log(app, opts):
         log_cfg['filename'] = log_file
     if 'log_level' in opts:
         log_cfg['level'] = opts.get('log_level')
-    logging_helper.configure(app, **log_cfg)
+    configure(app, **log_cfg)

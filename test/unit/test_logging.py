@@ -1,8 +1,8 @@
 import os
 import shutil
 from nose.tools import (assert_equal, assert_true)
-from qiutil import logging_helper
-from qiutil.logging_helper import logger
+from qiutil import logging
+from qiutil.logging import logger
 
 ROOT = os.path.normpath(os.path.join(os.path.dirname(__file__), '..'))
 """The test parent directory."""
@@ -28,7 +28,7 @@ class TestLoggingHelper(object):
         shutil.rmtree(RESULTS, True)
 
     def test_filename(self):
-        logging_helper.configure('test', filename=RESULT)
+        logging.configure('test', filename=RESULT)
         logger('test').info("Test info log message.")
         logger('test').debug("Test debug log message.")
         assert_true(os.path.exists(RESULT),
@@ -39,7 +39,7 @@ class TestLoggingHelper(object):
         assert_equal(len(msgs), 1, "Extraneous log messages in %s" % RESULT)
 
     def test_level(self):
-        logging_helper.configure('test', filename=RESULT, level='DEBUG')
+        logging.configure('test', filename=RESULT, level='DEBUG')
         logger('test').info("Test info log message.")
         logger('test').debug("Test debug log message.")
         assert_true(os.path.exists(RESULT),

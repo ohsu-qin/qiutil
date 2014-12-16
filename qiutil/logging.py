@@ -1,3 +1,7 @@
+# Absolute import (the default in a future Python release) resolves
+# the logging import as the Python standard logging module rather
+# than this module of the same name.
+from __future__ import absolute_import
 import os
 import logging
 import logging.config
@@ -10,7 +14,7 @@ def logger(name):
     
     Example:
     
-    >>> from qiutil.logging_helper import logger
+    >>> from qiutil.logging import logger
     >>> logger(__name__).debug("Starting my application...")
     
     :param name: the caller's context ``__name__``
@@ -62,19 +66,19 @@ def configure(app, cfg_file=None, **opts):
     By default, ``ERROR`` level messages are written to the  console.
     If the log file is set, then the default logger writes ``INFO`` level
     messages to a rotating log file. If the file handler is enabled, then
-    this :meth:`qiutil.logging_helper.config` method ensures that the log
+    this :meth:`qiutil.logging.config` method ensures that the log
     file parent directory exists.
     
     Examples:
     
     - Write to the log:
       
-      >>> from qiutil.logging_helper import logger
+      >>> from qiutil.logging import logger
       >>> logger(__name__).debug("Started the application...")
       
       or, in a class instance:
       
-      >>> from qiutil.logging_helper import logger
+      >>> from qiutil.logging import logger
       >>> class MyApp(object):
       ...     def __init__(self):
       ...         self._logger = logger(__name__)
@@ -83,18 +87,18 @@ def configure(app, cfg_file=None, **opts):
     
     - Write debug messages to the file log:
       
-      >>> from qiutil import logging_helper
-      >>> logging_helper.configure(level='DEBUG')
+      >>> from qiutil import logging
+      >>> logging.configure(level='DEBUG')
     
     - Set the log file:
       
-      >>> from qiutil import logging_helper
-      >>> logging_helper.configure(filename='log/myapp.log')
+      >>> from qiutil import logging
+      >>> logging.configure(filename='log/myapp.log')
     
     - Define your own logging configuration:
       
-      >>> from qiutil import logging_helper
-      >>> logging_helper.configure('/path/to/my/conf/logging.yaml')
+      >>> from qiutil import logging
+      >>> logging.configure('/path/to/my/conf/logging.yaml')
     
     - Simplify the console log message format::
         

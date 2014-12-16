@@ -22,9 +22,8 @@ Regexp pattern that splits the name and extension.
 """
 
 
-
 @contextmanager
-def open_file(filename):
+def open(filename):
     """
     Opens the given file. If the file extension ends in ``.gz``,
     then the content is uncompressed.
@@ -55,7 +54,7 @@ def splitexts(path):
     >>> import os
     >>> os.path.splitext('/tmp/foo.nii.gz')
     ('/tmp/foo.nii', '.gz')
-    >>> from qiutil.file_helper import splitexts
+    >>> from qiutil.file import splitexts
     >>> splitexts('/tmp/foo.3/bar.nii.gz')
     ('/tmp/foo.3/bar', '.nii.gz')
     

@@ -1,7 +1,6 @@
 """The Quantitative Imaging utility module."""
-from .project import project
 
-__version__ = '1.3.1'
+__version__ = '2.1.1'
 """
 The one-based major.minor.patch version.
 The version numbering scheme loosely follows http://semver.org/.

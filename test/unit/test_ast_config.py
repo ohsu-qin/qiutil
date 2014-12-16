@@ -1,6 +1,6 @@
 import os
 from nose.tools import (assert_equal, assert_is_not_none)
-from ..helpers.logging_helper import logger
+from ..helpers.logging import logger
 from qiutil.ast_config import read_config
 from test import ROOT
 

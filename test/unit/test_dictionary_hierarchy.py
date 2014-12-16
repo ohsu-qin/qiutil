@@ -2,7 +2,7 @@ import os
 from nose.tools import assert_equal
 from collections import OrderedDict
 from qiutil import dictionary_hierarchy as hierarchy
-from ..helpers.logging_helper import logger
+from ..helpers.logging import logger
 
 
 class TestHierarchy(object):
