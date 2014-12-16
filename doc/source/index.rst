@@ -29,35 +29,22 @@ Feature List
 ************
 Installation
 ************
-Add ``qiutil`` to your Python project setup.py ``install_requires``.
+Add ``qiutil`` to your Python_ project setup.py ``install_requires``.
 
 
 ---------
 
 .. container:: copyright
 
-  Copyright (C) 2014 Oregon Health & Science University
-  `Knight Cancer Institute`_. All rights reserved. ``qiutil`` is confidential
-  and may not be distributed in any form without authorization.
+  Copyright (C) 2014 Oregon Health & Science University `Knight Cancer Institute`_.
+  See LICENSE.txt for permissions.
 
 
 .. Targets:
 
-.. _Anaconda: http://docs.continuum.io/anaconda/
-
-.. _Git: http://git-scm.com
-
 .. _Knight Cancer Institute: http://www.ohsu.edu/xd/health/services/cancer
 
-.. _OHSU QIN Git administrator: loneyf@ohsu.edu
-
-.. _pip: https://pypi.python.org/pypi/pip
-
 .. _Python: http://www.python.org
-
-.. _qiutil repository: http://quip1.ohsu.edu:6060/qiutil
-
-.. _XNAT: http://www.xnat.org/
 
 .. toctree::
   :hidden:
