@@ -11,7 +11,7 @@ qiutil provides general-purpose utilities for the `OHSU QIN`_ projects.
 
 :API: http://qiutil.readthedocs.org/en/latest/api/index.html
 
-:Git: github.com/ohsu-qin/qiutil
+:Git: https://www.github.com/ohsu-qin/qiutil
 
 
 ************
