@@ -37,12 +37,14 @@ Add ``qiutil`` to your Python_ project setup.py ``install_requires``.
 .. container:: copyright
 
   Copyright (C) 2014 Oregon Health & Science University `Knight Cancer Institute`_.
-  See LICENSE.txt for permissions.
+  See the license_ for permissions.
 
 
 .. Targets:
 
 .. _Knight Cancer Institute: http://www.ohsu.edu/xd/health/services/cancer
+
+.. _license: https://github.com/ohsu-qin/qiutil/blob/master/LICENSE.txt
 
 .. _Python: http://www.python.org
 
