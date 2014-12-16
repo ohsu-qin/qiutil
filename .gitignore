@@ -3,6 +3,7 @@ _*/
 build
 lib
 dist
+wheelhouse
 ext
 **.egg-info/
 .DS_Store
