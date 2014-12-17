@@ -35,7 +35,7 @@ setup(
     license = 'MIT',
     keywords = 'Imaging QIN',
     packages = find_packages(exclude=['test**']),
-    data_files = [('config', glob.glob('conf/*.cfg'))],
+    include_package_data = True,
     url = 'https://github.com/ohsu-qin/qiutil',
     description = 'Quantitative Imaging helper utilities.',
     long_description = readme(),
