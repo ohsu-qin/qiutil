@@ -1,6 +1,10 @@
 This history lists major release themes. See the GitHub commits
 (http://quip1:6060/qiutil) for change details.
 
+2.1.3 / 2014-12-17
+------------------
+* Fix file open.
+
 2.1.2 / 2014-12-16
 ------------------
 * Adapt for PyPI.
