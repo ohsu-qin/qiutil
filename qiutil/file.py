@@ -1,3 +1,4 @@
+import __builtin__
 import os
 import re
 import inspect
@@ -37,7 +38,7 @@ def open(filename):
     if ext == '.gz':
         context = gzip.open
     else:
-        context = open
+        context = __builtin__.open
 
     # Open the file.
     with context(filename) as fp:
