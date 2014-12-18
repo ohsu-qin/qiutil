@@ -1,3 +1,2 @@
-include *.rst LICENSE.txt
-include_recursive conf
-
+include *.rst *.txt
+recursive_include conf *
