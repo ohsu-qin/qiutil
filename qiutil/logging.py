@@ -168,8 +168,8 @@ LOG_CFG_ENV_VAR = 'QIN_LOG_CFG'
 LOG_CFG_FILE = 'logging.yaml'
 """The optional current working directory logging configuration file name."""
 
-BASE_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
-"""The ``qiutil`` distribution directory."""
+BASE_DIR = os.path.abspath(os.path.dirname(__file__))
+"""The ``qiutil`` package directory."""
 
 DEF_LOG_CFG_PATH = os.path.join(BASE_DIR, 'conf', LOG_CFG_FILE)
 """The default application logging configuration file path."""
