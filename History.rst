@@ -1,6 +1,10 @@
 This history lists major release themes. See the GitHub commits
 (http://quip1:6060/qiutil) for change details.
 
+2.1.5 / 2014-12-17
+------------------
+* Include requirements.txt in the distribution.
+
 2.1.4 / 2014-12-17
 ------------------
 * Include conf in the distribution.
