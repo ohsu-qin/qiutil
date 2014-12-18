@@ -3,7 +3,7 @@ This history lists major release themes. See the GitHub commits
 
 2.1.5 / 2014-12-17
 ------------------
-* Include requirements.txt in the distribution.
+* Move conf into the qiutil package.
 
 2.1.4 / 2014-12-17
 ------------------
