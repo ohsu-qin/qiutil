@@ -17,13 +17,17 @@ qiutil provides general-purpose utilities for the `OHSU QIN`_ projects.
 ************
 Feature List
 ************
-1. Python logging configuration.
+1. Configuration file parser.
 
-2. Command logging options.
+2. Logging configuration.
 
-3. Collection data structures and utilities. 
+3. Command logging options.
 
-4. File helper functions.
+4. Collection data structures and utilities. 
+
+5. File helper functions.
+
+6. Simple UID generator.
 
 
 ************
