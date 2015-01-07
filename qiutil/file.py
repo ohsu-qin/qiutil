@@ -2,12 +2,9 @@ import __builtin__
 import os
 import re
 import inspect
-import base64
-import struct
-import time
-import calendar
 import gzip
 from contextlib import contextmanager
+from .uid import generate_string_uid
 
 SPLITEXT_PAT = re.compile("""
     (.*?)           # The file path without the extension
@@ -71,20 +68,13 @@ def splitexts(path):
 
 def generate_file_name(ext=None):
     """
-    Makes a valid file name which is unique to within one millisecond of calling
-    this function. The file name is seven characters long without the extension.
+    Makes a valid file name which is unique to within one microsecond of calling
+    this function. The file name is ten characters long without the extension.
     
     :param ext: the optional file extension, with leading period delimiter
     :return: the file name
     """
-    # A starting time prior to now.
-    start = time.mktime(calendar.datetime.date(2013, 01, 01).timetuple())
-    # A long which is unique to within one millisecond.
-    offset = long((time.time() - start) * 1000)
-    # The file name is encoded from the offset without trailing filler or
-    # linebreak.
-    fname = base64.urlsafe_b64encode(struct.pack('L', offset)).rstrip('A=\n')
-
+    fname = generate_string_uid()
     if ext:
         return fname + ext
     else:

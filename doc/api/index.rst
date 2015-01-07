@@ -40,6 +40,12 @@ API Documentation
     :members:
     :show-inheritance:
 
+:mod:`uid`
+-----------
+.. automodule:: qiutil.uid
+    :members:
+    :show-inheritance:
+
 :mod:`which`
 ------------
 .. automodule:: qiutil.which
