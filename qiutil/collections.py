@@ -16,12 +16,12 @@ def is_nonstring_iterable(obj):
 def to_series(items, conjunction='and'):
     """
     Formats the given items as a series string.
-    
+
     Example:
-    
+
     >>> to_series([1, 2, 3])
     '1, 2 and 3'
-    
+
     :param items: the items to format in a series
     :param conjunction: the series conjunction
     :return: the items series
@@ -36,22 +36,40 @@ def to_series(items, conjunction='and'):
     else:
         return (' ' + conjunction + ' ').join([prefix, suffix])
 
-def nested_defaultdict(factory, levels):
+def nested_defaultdict(factory, levels=0):
     """
     Makes a defaultdict for the given factory and number of levels, e.g.::
-    
+
+        >> from qiutil.collections import nested_defaultdict as dd
         >> dd(list, 0)[1]
         []
         >> dd(dict, 2)[1][2][3]
         {}
+
+    Note that the default levels parameter value 0 is synonymous with the
+    standard Python collections defaultdict, i.e.::
+
+        dd(list)
+
+    is the same as::
+
+        dd(list, 0)
+
+    or::
+
+        from collections import defaultdict
+        defaultdict(list)
     
+    Thus, this ``nested_defaultdict`` function can serve as a drop-in
+    replacement for ``defaultdict``.
+
     :param factory: the 0th level defaultdict factory.
     :param levels: the number of levels
     """
     # The recursive nested dictionary generator, where f is the factory
     # and n is the number of levels.
     dd = lambda f, n: defaultdict((lambda: dd(f, n - 1)) if n else f)
-    
+
     return dd(factory, levels)
 
 
@@ -59,7 +77,7 @@ class ImmutableDict(dict):
 
     """
     ImmutableDict is a dictionary that cannot be changed after creation.
-    
+
     An ImmutableDict is *not* hashable and therefore cannot be used as a dictionary
     key or set member. See http://www.python.org/dev/peps/pep-0351 for the rationale.
     """
