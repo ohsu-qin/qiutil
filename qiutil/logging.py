@@ -27,7 +27,7 @@ def logger(name):
     return logging.getLogger(name)
 
 
-def configure(app, cfg_file=None, **opts):
+def configure(app, filename=None, **opts):
     """
     Configures the global logger. The logging configuration is obtained from
     from the given keyword arguments and the YAML_ logging configuration files.
@@ -38,9 +38,9 @@ def configure(app, cfg_file=None, **opts):
     
     - the ``logging.yaml`` file in the current directory
     
-    - the file specified by the ``QIN_LOG_CFG`` environment variable
+    - the file specified by the ``LOG_CFG`` environment variable
     
-    - the *cfg_file* parameter
+    - the *filename* parameter
     
     The ``opts`` keyword arguments specify simple logging parameters that
     override the configuration file settings. The keyword arguments
@@ -115,14 +115,14 @@ def configure(app, cfg_file=None, **opts):
     .. _YAML: http://www.yaml.org
     
     :param app: the application name
-    :param cfg_file: the optional custom configuration YAML file
+    :param filename: the optional custom configuration YAML file
     :param opts: the logging configuration options, including
         the following short-cuts:
     :keyword filename: the log file path
     :keyword level: the file handler log level
     """
     # Load the configuration files.
-    cfg = _load_config(app, cfg_file)
+    cfg = _load_config(app, filename)
 
     # The options override the configuration files.
     fname = opts.pop('filename', None)
@@ -162,8 +162,8 @@ def configure(app, cfg_file=None, **opts):
     setattr(logger, 'configured', True)
 
 
-LOG_CFG_ENV_VAR = 'QIN_LOG_CFG'
-"""The user-defined environment variable logging configuration path."""
+LOG_CFG_ENV_VAR = 'LOG_CONFIG'
+"""The user-defined environment variable logging configuration file path."""
 
 LOG_CFG_FILE = 'logging.yaml'
 """The optional current working directory logging configuration file name."""
@@ -175,7 +175,7 @@ DEF_LOG_CFG_PATH = os.path.join(BASE_DIR, 'conf', LOG_CFG_FILE)
 """The default application logging configuration file path."""
 
 
-def _load_config(app, cfg_file=None):
+def _load_config(app, filename=None):
     """
     Loads the logger configuration files, as described in
     :meth:`qiutil.logging.configure`.
@@ -201,24 +201,24 @@ def _load_config(app, cfg_file=None):
         _update_config(config, cwd_cfg)
     
     # The argument log configuration file.
-    if cfg_file:
-        if os.path.exists(cfg_file):
-            arg_cfg = _load_config_file(cfg_file)
+    if filename:
+        if os.path.exists(filename):
+            arg_cfg = _load_config_file(filename)
             _update_config(config, arg_cfg)
         else:
-            raise ValueError("Configuration file not found: %s" % cfg_file)
+            raise ValueError("Configuration file not found: %s" % filename)
 
     return config
 
 
-def _load_config_file(path):
+def _load_config_file(filename):
     """
     Loads the given logger configuration file.
  
-    :param: path: the file path
+    :param: filename: the log configuration file path
     :return: the parsed configuration parameter dictionary
     """
-    with open(path) as fs:
+    with open(filename) as fs:
         return yaml.load(fs)
 
 
