@@ -1,6 +1,10 @@
 This history lists major release themes. See the GitHub commits
 (http://quip1:6060/qiutil) for change details.
 
+2.1.6 / 2015-01-06
+------------------
+* Add the UID generator.
+
 2.1.5 / 2014-12-17
 ------------------
 * Move conf into the qiutil package.
