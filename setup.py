@@ -40,6 +40,15 @@ def readme():
 #   1. Set MANIFEST.in to the following:
 #
 #          include *.rst *.txt
+#          recursive-exclude test *
+#
+#      recursive exclude excludes the test files. Note that this entry is
+#      only strictly necessary for some projects, e.g. qidicom, but not
+#      others, e.g. qiutil. The reason for this difference is unknown, but
+#      is probably due to another obscure setuptools bug. At any rate, it
+#      doesn't hurt to include it in all projects. It is advisable to
+#      exclude the test directory because only python files are included,
+#      and the python test cases often require test fixtures.
 #
 #   2. Move top-level directories to include in the build, e.g. conf,
 #      to qiutil.
