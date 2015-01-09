@@ -1,9 +1,7 @@
 import os
-import glob
 from nose.tools import assert_equal
-from ..helpers.logging import logger
 import qiutil
-from test import ROOT
+from .. import ROOT
 
 FIXTURES = os.path.join(ROOT, 'fixtures', 'file')
 """The test fixture configuration file."""

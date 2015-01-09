@@ -2,7 +2,7 @@ import os
 from nose.tools import (assert_equal, assert_is_not_none)
 from ..helpers.logging import logger
 from qiutil.ast_config import read_config
-from test import ROOT
+from .. import ROOT
 
 FIXTURE = os.path.join(ROOT, 'fixtures', 'ast_config', 'tuning.cfg')
 """The test fixture configuration file."""
