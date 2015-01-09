@@ -152,7 +152,6 @@ def configure(app, cfg_file=None, **opts):
     qicollections.update(cfg, opts, recursive=True)
 
     # Ensure that the log file parent directory exists.
-    print (">>1 %s %s" % (app, cfg['loggers']))
     if 'file_handler' in cfg['loggers'][app]['handlers']:
         log_file = cfg['handlers']['file_handler'].get('filename')
         if not log_file:
@@ -163,7 +162,6 @@ def configure(app, cfg_file=None, **opts):
         cfg['handlers']['file_handler']['filename'] = log_file
         # Make the log file parent directory, if necessary.
         log_dir = os.path.dirname(log_file)
-        print (">>2 %s" % log_dir)
         if log_dir and not os.path.exists(log_dir):
             os.makedirs(log_dir)
 
@@ -204,7 +202,6 @@ def _load_config(app, cfg_file=None):
     
     # The custom configuration files.
     custom_cfg_files = _find_custom_config_files(cfg_file)
-    print (">>log %s" % custom_cfg_files)
     # Load the custom configurations.
     custom_cfgs = (_load_config_file(f) for f in custom_cfg_files)
     # Update the base configuration.

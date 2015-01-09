@@ -150,12 +150,8 @@ def _create_updater(target, **opts):
     else:
         return functools.partial(_update_collection, target)
 
-import pprint
-pp = pprint.PrettyPrinter(indent = 2)
 
 def _update_dict_recursive(target, source):
-    print
-    print (">>upd dict %s <- %s..." % (pp.pprint(target), pp.pprint(source)))
     for key, srcval in source.iteritems():
         if key in target:
             tgtval = target[key]
@@ -168,7 +164,6 @@ def _update_dict_recursive(target, source):
                 continue
         # Set the target item.
         target[key] = copy(srcval)
-    print (">>upd dict end: %s" % pp.pprint(target))
 
 
 def _validate_update_compatibility(target, *sources):
