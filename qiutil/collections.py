@@ -2,8 +2,9 @@
 # the collections import as the Python standard collections module
 # rather than this module of the same name.
 from __future__ import absolute_import
-from collections import (Iterable, defaultdict)
-
+from copy import copy
+from collections import (Iterable, Mapping, defaultdict)
+import functools
 
 def is_nonstring_iterable(obj):
     """
@@ -73,13 +74,145 @@ def nested_defaultdict(factory, levels=0):
     return dd(factory, levels)
 
 
+def update(target, *sources, **opts):
+    """
+    Updates the given target object from the given source objects.
+    The target object can be a dictionary, list or set. The target
+    and sources are validated for compatibility as follows:
+    
+    * If the target object is a Mapping, then the sources must
+      be Mappings.
+    
+    * Otherwise, if the target object is a list or set, then the
+      sources must be non-string iterables.
+    
+    The target is updated from the sources in order as follows:
+    
+    * If the target object is a Mapping and the *recursive* flag is
+      falsey, then the standard Python dictionary update is applied.
+    
+    * If the target object is a Mapping and the *recursive* flag is
+      truthy, then the update is applied recursively to nested
+      dictionaries, e.g.:
+      
+      >> from qiutil.collections import update
+      >> target = dict(a=dict(aa=1))
+      >> update(target, dict(a=dict(aa=2, ab=3)))
+      >> target
+      {'a': {'aa': 2, 'ab': 3}}
+    
+    * If the target object is a list or set, then the source items
+      which are not yet in the target are added to the target, e.g.:
+    
+      >> from qiutil.collections import update
+      >> target = [1, 2, 2, 5]
+      >> update(target, [4, 2, 6, 6])
+      >> target
+      [1, 2, 2, 5, 4, 6, 6]
+    
+    This function adapts the solution offered in a
+    `StackOverflow post <http://stackoverflow.com/questions/3232943/update-value-of-a-nested-dictionary-of-varying-depth>`
+    to support lists, sets and multiple sources.
+    
+    :param target: the dictionary to update
+    :param sources: the update source dictionaries
+    :param opts: the following keyword options:
+    :keyword recursive: if True, then apply the update recursively to
+        nested dictionaries
+    """
+    # Validate the sources.
+    _validate_update_compatibility(target, *sources)
+    # Make the update helper function. This idiom refactors the source
+    # iteration block into a callable function with a sole source argument.
+    # This pattern is a little obscure to those not well-versed in functional
+    # programming, but it is cleaner than the alternative of embedding the
+    # _updater logic into the source iteration.
+    updater = _create_updater(target, **opts)
+    # Apply the successive source updates.
+    for source in sources:
+        updater(source)
+
+
+def _create_updater(target, **opts):
+    """
+    :param target: the update target
+    :param opts: the following keyword options:
+    :keyword recursive: if True, then apply the update recursively to
+        nested dictionaries
+    :return: the function to apply to a *source* argument
+    """
+    if isinstance(target, Mapping):
+        if opts.get('recursive'):
+            return functools.partial(_update_dict_recursive, target)
+        else:
+            # Apply the standard Python dictionary update.
+            return lambda src: target.update(src)
+    else:
+        return functools.partial(_update_collection, target)
+
+import pprint
+pp = pprint.PrettyPrinter(indent = 2)
+
+def _update_dict_recursive(target, source):
+    print
+    print (">>upd dict %s <- %s..." % (pp.pprint(target), pp.pprint(source)))
+    for key, srcval in source.iteritems():
+        if key in target:
+            tgtval = target[key]
+            # If the target value can be merged from the source
+            # value, then replace the target value with a shallow
+            # copy and update it recursively.
+            if isinstance(tgtval, Mapping) and isinstance(srcval, Mapping):
+                target[key] = tgtval = copy(tgtval)
+                _update_dict_recursive(tgtval, srcval)
+                continue
+        # Set the target item.
+        target[key] = copy(srcval)
+    print (">>upd dict end: %s" % pp.pprint(target))
+
+
+def _validate_update_compatibility(target, *sources):
+    if isinstance(target, Mapping):
+        for source in sources:
+            if not isinstance(source, Mapping):
+                raise TypeError("Update source is incompatible with the"
+                                " dictionary target: %s" % source)
+    elif isinstance(target, list) or isinstance(target, set):
+        for source in sources:
+            if not is_nonstring_iterable(source):
+                raise TypeError("Update source is incompatible with the"
+                                " collection target: %s" % source)
+    else:
+        raise TypeError("Update target is type is not supported: %s" % target)
+
+
+def _update_collection(target, source):
+    """
+    Adds to the target those source items which are not
+    yet in the target, as described in :meth:`update`.
+    
+    :param target: the list or set to update
+    :param source: the input non-string iterable
+    :raise TypeError: if the target is neither a list or set
+    """
+    if isinstance(target, set):
+        target.update(source)
+    elif isinstance(target, list):
+        exclude = set(target)
+        diff = (item for item in source if item not in exclude)
+        target.extend(diff)
+    else:
+        raise TypeError("Update target type not supported")
+
+
 class ImmutableDict(dict):
 
     """
     ImmutableDict is a dictionary that cannot be changed after creation.
 
-    An ImmutableDict is *not* hashable and therefore cannot be used as a dictionary
-    key or set member. See http://www.python.org/dev/peps/pep-0351 for the rationale.
+    An ImmutableDict is *not* hashable and therefore cannot be used as a
+    dictionary key or set member. See http://www.python.org/dev/peps/pep-0351
+    for the rationale.
     """
 
     def __init__(self, *args, **kwargs):
@@ -90,6 +223,7 @@ class ImmutableDict(dict):
         :raise NotImplementedError: always
         """
         raise NotImplementedError("The dictionary is immutable: %s" % self)
+
 
 EMPTY_DICT = ImmutableDict()
 """
