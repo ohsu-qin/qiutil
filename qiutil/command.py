@@ -10,7 +10,7 @@ from logging import (ERROR, DEBUG)
 from .logging import configure
 
 
-def add_log_options(parser):
+def add_options(parser):
     """
     Adds the standard ``--log``, ``--quiet``, ``--verbose`` and ``--debug``
     options to the given command line argugment parser.

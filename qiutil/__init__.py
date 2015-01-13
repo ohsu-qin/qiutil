@@ -1,6 +1,6 @@
 """The Quantitative Imaging utility module."""
 
-__version__ = '2.1.7'
+__version__ = '2.1.8'
 """
 The one-based major.minor.patch version.
 The version numbering scheme loosely follows http://semver.org/.
