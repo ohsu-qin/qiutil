@@ -1,7 +1,7 @@
 This history lists major release themes. See the GitHub commits
 (http://quip1:6060/qiutil) for change details.
 
-2.1.8 / 2015-01-13
+2.1.8 / 2015-01-14
 ------------------
 * Rename command options method.
 
