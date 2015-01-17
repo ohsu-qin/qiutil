@@ -102,9 +102,8 @@ def configure(app, cfg_file=None, **opts):
       >>> import qiutil
       >>> qiutil.logging.configure('/path/to/my/conf/logging.yaml')
 
-    - Simplify the console log message format::
-
-        ./logging.yaml:
+    - Simplify the console log message format by creating the following
+      ``./logging.yaml` customization::
         ---
         formatters:
           simple:

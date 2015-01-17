@@ -31,11 +31,12 @@ def read_config(*filenames):
 class ASTConfig(Config):
 
     """
-    ASTConfig parses a configuration option values as AST objects.
-    Strings are quoted, if necessary.
-    A bracked value is parsed as a list.
-    A case-insensitive match on ``true`` or ``false`` is parsed
-    as ``True``, resp. ``False``.
+    ASTConfig parses a configuration file with AST property values as
+    follows:
+    * Strings are quoted, if necessary.
+    * A bracketed value is parsed as a list.
+    * A case-insensitive match on ``true`` or ``false`` is parsed
+      as the Python object ``True``, resp. ``False``.
     
     For example, given the configuration file ``tuning.cfg`` with content::
         
@@ -47,14 +48,14 @@ class ASTConfig(Config):
         threshold = 4.0
         plugin_args = {'qsub_args': '-pe mpi 48-120'}
     
-    then:
+    then::
     
-    >>> cfg = ASTConfig('tuning.cfg')
-    >>> cfg['Tuning']
-    {'method': u'FFT', 'parameters' = [(1,), (2, 3), -0.4],
-     'iterations': [[1, 2], 5],
-     'two_tailed': False, 'threshold': 4.0,
-     'plugin_args': {'qsub_args': '-pe mpi 48-120'}}
+        >>> cfg = ASTConfig('tuning.cfg')
+        >>> cfg['Tuning']
+        {'method': u'FFT', 'parameters' = [(1,), (2, 3), -0.4],
+         'iterations': [[1, 2], 5],
+         'two_tailed': False, 'threshold': 4.0,
+         'plugin_args': {'qsub_args': '-pe mpi 48-120'}}
     """
 
     BUNCH_PAT = """
