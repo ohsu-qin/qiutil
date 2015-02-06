@@ -77,7 +77,7 @@ setup(
     keywords = 'Imaging QIN',
     packages = find_packages(exclude=['test**']),
     package_data = dict(qiutil=['conf/*']),
-    url = 'https://github.com/ohsu-qin/qiutil',
+    url = 'http://qiutil.readthedocs.org/en/latest/',
     description = 'Quantitative Imaging helper utilities.',
     long_description = readme(),
     classifiers = [
