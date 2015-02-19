@@ -58,7 +58,7 @@ def configure(app, cfg_file=None, **opts):
     The logging configuration file ``formatters``, ``handlers`` and
     ``loggers`` sections are updated incrementally. For example, the
     ``conf/logging.yaml`` source distribution file defines the ``default``
-    formatter ``format`` and ``datefmt``. If the  ``logging.yaml`` file in
+    formatter ``format`` and ``datefmt``. If the ``logging.yaml`` file in
     the current directory overrides the ``format`` but not the ``datefmt``,
     then the default ``datefmt`` is retained rather than unset. Thus, a custom
     logging configuration file need define only the settings which override
@@ -103,15 +103,15 @@ def configure(app, cfg_file=None, **opts):
       >>> qiutil.logging.configure('/path/to/my/conf/logging.yaml')
 
     - Simplify the console log message format by creating the following
-      ``./logging.yaml` customization::
-        ---
-        formatters:
-          simple:
-            format: '%(name)s - %(message)s'
-
-        handlers:
-          console:
-            formatter: simple
+      ``./logging.yaml`` customization::
+      
+          ---
+          formatters:
+            simple:
+              format: '%(name)s - %(message)s'
+          handlers:
+            console:
+              formatter: simple
 
     .. _YAML: http://www.yaml.org
 

@@ -33,8 +33,11 @@ class ASTConfig(Config):
     """
     ASTConfig parses a configuration file with AST property values as
     follows:
+    
     * Strings are quoted, if necessary.
+    
     * A bracketed value is parsed as a list.
+    
     * A case-insensitive match on ``true`` or ``false`` is parsed
       as the Python object ``True``, resp. ``False``.
     
