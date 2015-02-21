@@ -45,11 +45,11 @@ Testing is performed with the nose_ package, which must be installed separately.
 Documentation is built automatically by ReadTheDocs_ when the project is pushed
 to GitHub. Documentation can be generated locally as follows:
 
-* Installing Sphinx_, if necessary
+* Install Sphinx_, if necessary.
 
 * Run the following in the ``doc`` subdirectory::
 
-    make html
+      make html
 
 ---------
 
@@ -72,6 +72,8 @@ to GitHub. Documentation can be generated locally as follows:
 .. _OHSU QIN: https://github.com/ohsu-qin
 
 .. _ReadTheDocs: https://www.readthedocs.org
+
+.. _Sphinx: http://sphinx-doc.org/index.html
 
 .. toctree::
   :hidden:
