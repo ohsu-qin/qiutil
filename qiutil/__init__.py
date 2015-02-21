@@ -1,10 +1,10 @@
-"""The Quantitative Imaging utility module cxvvcxv."""
+"""The Quantitative Imaging utility module."""
 
-__version__ = '2.1.8'
+__version__ = '2.1.9'
 """
-The one-based major.minor.patch version based on the
+The *major*\ .\ *minor*\ .\ *patch* version.
+The verson numbering scheme is described in
 `Fast and Loose Versioning <https://gist.github.com/FredLoney/6d946112e0b0f2fc4b57>`_
-scheme. Minor and patch version numbers begin at 1.
 """
 
 # Import collections, file and logging, since these are also
