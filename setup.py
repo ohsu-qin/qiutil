@@ -35,14 +35,15 @@ def readme():
 #   and MANIFEST.in that includes selective top-level files and directories
 #   in both the source and binary distributions.
 #
-#   The work-around is to only build the source distribution as follows:
+#   The work-around is to only build the source distribution. This is done
+#   as follows:
 #
 #   1. Set MANIFEST.in to the following:
 #
 #          include *.rst *.txt
 #          recursive-exclude test *
 #
-#      recursive exclude excludes the test files. Note that this entry is
+#      recursive-exclude excludes the test files. Note that this entry is
 #      only strictly necessary for some projects, e.g. qidicom, but not
 #      others, e.g. qiutil. The reason for this difference is unknown, but
 #      is probably due to another obscure setuptools bug. At any rate, it
@@ -50,8 +51,8 @@ def readme():
 #      exclude the test directory because only python files are included,
 #      and the python test cases often require test fixtures.
 #
-#   2. Move top-level directories to include in the build, e.g. conf,
-#      to qiutil.
+#   2. Place all directories necessary for package use, e.g. conf,
+#      in the package source parent directory.
 #
 #   3. Add the package_data option to the setup call, e.g.:
 #
@@ -78,7 +79,7 @@ setup(
     packages = find_packages(exclude=['test**']),
     package_data = dict(qiutil=['conf/*']),
     url = 'http://qiutil.readthedocs.org/en/latest/',
-    description = 'Quantitative Imaging helper utilities.',
+    description = 'Quantitative Imaging helper utilities',
     long_description = readme(),
     classifiers = [
         'Development Status :: 5 - Production/Stable',
