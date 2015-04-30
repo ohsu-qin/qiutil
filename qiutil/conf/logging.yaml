@@ -1,6 +1,7 @@
 ---
 version: 1
 
+# Loggers defined before this configuration are not disabled.
 disable_existing_loggers: False
 
 formatters:
@@ -15,7 +16,7 @@ handlers:
     formatter: standard
     stream: ext://sys.stdout
   
-  file_handler:
+  file:
     class: logging.handlers.RotatingFileHandler
     level: INFO
     formatter: standard
@@ -30,8 +31,7 @@ handlers:
 loggers:
   application:  # Renamed by the logging.configure function
     level: INFO
-    handlers: [console, file_handler]
-    propagate: no
+    handlers: [file]
 
 root:
   level: INFO
