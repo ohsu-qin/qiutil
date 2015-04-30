@@ -1,6 +1,10 @@
 This history lists major release themes. See the GitHub commits
 for change details.
 
+2.1.10 / 2015-04-29
+------------------
+* Propagate the application loggers.
+
 2.1.9 / 2015-01-20
 ------------------
 * Add doc Development section.

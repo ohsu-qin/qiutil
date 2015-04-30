@@ -18,6 +18,9 @@ def logger(name):
     >>> from qiutil.logging import logger
     >>> logger(__name__).debug("Starting my application...")
 
+    :Note: Python ``nosetests`` captures log messages and only
+        reports them on failure.
+
     :param name: the caller's context ``__name__``
     :return: the Python Logger instance
     """
@@ -130,7 +133,7 @@ def configure(app, cfg_file=None, **opts):
         fname = opts['filename']
         if fname:
             # Reset the log file.
-            cfg['handlers']['file_handler']['filename'] = fname
+            cfg['handlers']['file']['filename'] = fname
         else:
             # Disable the file handler and retain only
             # the console handler.
@@ -142,8 +145,8 @@ def configure(app, cfg_file=None, **opts):
     level = opts.pop('level', None)
     if level:
         cfg['loggers'][app]['level'] = level
-        if 'file_handler' in cfg['loggers'][app]['handlers']:
-            cfg['handlers']['file_handler']['level'] = level
+        if 'file' in cfg['loggers'][app]['handlers']:
+            cfg['handlers']['file']['level'] = level
         else:
             cfg['handlers']['console']['level'] = level
 
@@ -151,20 +154,19 @@ def configure(app, cfg_file=None, **opts):
     qicollections.update(cfg, opts, recursive=True)
 
     # Ensure that the log file parent directory exists.
-    if 'file_handler' in cfg['loggers'][app]['handlers']:
-        log_file = cfg['handlers']['file_handler'].get('filename')
+    if 'file' in cfg['loggers'][app]['handlers']:
+        log_file = cfg['handlers']['file'].get('filename')
         if not log_file:
             raise ValueError("The logging configuration file handler is enabled"
                              " but the log file name is not set.")
         # Make the runtime path absolute for clarity.
         log_file = os.path.abspath(log_file)
-        cfg['handlers']['file_handler']['filename'] = log_file
+        cfg['handlers']['file']['filename'] = log_file
         # Make the log file parent directory, if necessary.
         log_dir = os.path.dirname(log_file)
         if log_dir and not os.path.exists(log_dir):
             os.makedirs(log_dir)
-
-    # Configure the logger.
+    # Configure logging.
     logging.config.dictConfig(cfg)
 
     # Set the logger configured flag.

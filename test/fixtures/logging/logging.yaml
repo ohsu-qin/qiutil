@@ -8,10 +8,10 @@ formatters:
     datefmt: '%Y%m%d %H:%M:%S'
 
 handlers:
-  file_handler:
+  file:
     formatter: custom
     filename: log/test.log
 
 loggers:
   test:
-    handlers: [file_handler]
+    handlers: [file]
