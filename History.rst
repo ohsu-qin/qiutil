@@ -1,6 +1,10 @@
 This history lists major release themes. See the GitHub commits
 for change details.
 
+2.1.11 / 2015-05-05
+-------------------
+* Add file Finder.
+
 2.1.10 / 2015-04-29
 ------------------
 * Propagate the application loggers.

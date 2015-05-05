@@ -1,6 +1,6 @@
 """The Quantitative Imaging utility module."""
 
-__version__ = '2.1.10'
+__version__ = '2.1.11'
 """
 The *major*\ .\ *minor*\ .\ *patch* version.
 The verson numbering scheme is described in

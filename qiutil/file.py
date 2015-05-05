@@ -1,5 +1,6 @@
 import __builtin__
 import os
+import glob
 import re
 import inspect
 import gzip
@@ -81,14 +82,69 @@ def generate_file_name(ext=None):
         return fname
 
 
+class Finder(object):
+    """
+    Finder matches a file name glob pattern and regular expression.
+    """
+
+    def __init__(self, glob, regex):
+        """
+        :param glob: the glob pattern string
+        :param regex: the :class:`RegExp` object or pattern string
+        """
+        self.glob = glob
+        """The glob pattern string."""
+        
+        if isinstance(regex, str):
+            regex = re.compile(regex)
+        self.regex = regex
+        """The file match regular expression."""
+
+    def match(self, base_dir=None):
+        """
+        Iterates over the matches on both the :attr:`glob` and the
+        :attr:`regex`.
+        
+        :param: the parent base directory path (default current directory)
+        :yield: the next match
+        """
+        if not base_dir:
+            base_dir = os.getcwd()
+        # The primary glob match.
+        files = glob.iglob('/'.join((base_dir, self.glob)))
+        # Apply the secondary regex filter.
+        prefix_len = len(base_dir) + 1
+        for path in files:
+            # Chop off the base directory prefix.
+            rel_path = path[prefix_len:]
+            # Match on the rest of the file path.
+            match = self.regex.match(rel_path)
+            if match:
+                yield match
+
+    def find(self, base_dir=None):
+        """
+        Iterates over the files which match both the :attr:`glob` and the
+        :attr:`regex`.
+        
+        :param: the parent base directory path (default current directory)
+        :yield: the next matching file path
+        """
+        for match in self.match(base_dir):
+            # Restore the base directory prefix.
+            yield os.path.join(base_dir, match.group(0))
+
+
 class FileIterator(object):
     """
     FileIterator is a generator class which iterates over the files contained
     recursively in the initializer *filespecs* parameters.
     """
+
     def __init__(self, *filespecs):
         """
-        :param filespecs: the files, directories or file generators over which to iterate
+        :param filespecs: the files, directories or file generators over which
+            to iterate
         """
         self._filespecs = filespecs
 
