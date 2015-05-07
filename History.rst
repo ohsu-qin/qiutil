@@ -1,6 +1,10 @@
 This history lists major release themes. See the GitHub commits
 for change details.
 
+2.1.12 / 2015-05-07
+-------------------
+* Import command into qixnat.
+
 2.1.11 / 2015-05-05
 -------------------
 * Add file Finder.
