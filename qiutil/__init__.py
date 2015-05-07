@@ -17,4 +17,6 @@ The verson numbering scheme is described in
 #  or:
 #   from qiutil import file as qifile
 #   with qifile.open(...): # Awkward
-from . import (collections, file, logging) 
+#
+# Import command as well, since it is a common module name.
+from . import (collections, command, file, logging) 
