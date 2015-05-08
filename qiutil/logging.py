@@ -8,6 +8,22 @@ import logging.config
 import yaml
 from . import collections as qicollections
 
+LOG_CFG_ENV_VAR = 'LOG_CONFIG'
+"""The user-defined environment variable logging configuration file path."""
+
+LOG_CFG_FILE = 'logging.yaml'
+"""The optional current working directory logging configuration file name."""
+
+BASE_DIR = os.path.abspath(os.path.dirname(__file__))
+"""The ``qiutil`` package directory."""
+
+DEF_LOG_CFG = os.path.join(BASE_DIR, 'conf', LOG_CFG_FILE)
+"""The default logging configuration file path."""
+
+
+class LogError(Exception):
+    pass
+
 
 def logger(name):
     """
@@ -31,10 +47,10 @@ def logger(name):
     return logging.getLogger(name)
 
 
-def configure(app, cfg_file=None, **opts):
+def configure(*names, **opts):
     """
-    Configures the global logger. The logging configuration is obtained from
-    from the given keyword arguments and the YAML_ logging configuration files.
+    Configures logging. The logging configuration is obtained from from
+    the given keyword arguments and the YAML_ logging configuration files.
     The following logging configuration files are loaded in low-to-high
     precedence:
 
@@ -54,9 +70,9 @@ def configure(app, cfg_file=None, **opts):
     - if the *filename* is None, then file logging is disabled. Otherwise,
       the file handler file name is set to the *filename* value.
 
-    - The *level* is set for the ``application`` logger. In addition, if
-      the ``application`` logger has a file handler, then that file handler
-      level is set. Otherwise, the console handler level is set.
+    - The *level* is set for the logger. In addition, if the logger has a
+      file handler, then that file handler level is set. Otherwise, the
+      console handler level is set.
 
     The logging configuration file ``formatters``, ``handlers`` and
     ``loggers`` sections are updated incrementally. For example, the
@@ -70,7 +86,7 @@ def configure(app, cfg_file=None, **opts):
     By default, ``ERROR`` level messages are written to the  console.
     If the log file is set, then the default logger writes ``INFO`` level
     messages to a rotating log file.
-    
+
     If the file handler is enabled, then this :meth:`qiutil.logging.configure`
     method ensures that the log file parent directory exists.
 
@@ -107,7 +123,7 @@ def configure(app, cfg_file=None, **opts):
 
     - Simplify the console log message format by creating the following
       ``./logging.yaml`` customization::
-      
+
           ---
           formatters:
             simple:
@@ -118,75 +134,94 @@ def configure(app, cfg_file=None, **opts):
 
     .. _YAML: http://www.yaml.org
 
-    :param app: the application name
-    :param cfg_file: the optional custom configuration YAML file
+    :param names: the logging contexts (default root)
     :param opts: the Python ``logging.conf`` options, as well as the
         following short-cuts:
+    :keyword config: the custom configuration YAML file
     :keyword filename: the log file path
     :keyword level: the file handler log level
     """
     # Load the configuration files.
-    cfg = _load_config(app, cfg_file)
+    cfg_file = opts.get('config')
+    config = _load_config(cfg_file)
 
-    # The options override the configuration files.
-    if 'filename' in opts:
-        fname = opts['filename']
-        if fname:
-            # Reset the log file.
-            cfg['handlers']['file']['filename'] = fname
-        else:
-            # Disable the file handler and retain only
-            # the console handler.
-            cfg['loggers'][app]['handlers'] = ['console']
+    # Extract the logger options from the config options.
+    logger_opts = {k: opts.pop(k) for k in ['filename', 'level'] if k in opts}
+
+    # The filename option overrides the configuration files.
+    fname = logger_opts.get('filename')
+    if fname:
+        # Reset the log file.
+        config['handlers']['file']['filename'] = fname
+
+    # Make the loggers dictionary, if necessary.
+    if not 'loggers' in config:
+        config['loggers'] = {}
+    # Configure the loggers.
+    for name in names:
+        _configure_logger(name, config, **logger_opts)
+
+    # Add the other options, if any.
+    qicollections.update(config, opts, recursive=True)
+
+    # Ensure that all log file parent directories exist.
+    for handler in config['handlers'].itervalues():
+        log_file = handler.get('filename')
+        if log_file:
+            # Make the log file parent directory, if necessary.
+            log_dir = os.path.dirname(log_file)
+            if log_dir and not os.path.exists(log_dir):
+                os.makedirs(log_dir)
+            # Make the log file path absolute for clarity.
+            handler['filename'] = os.path.abspath(log_file)
+    
+    # Configure logging.
+    logging.config.dictConfig(config)
+
+    # Set the logger configured flag.
+    setattr(logger, 'configured', True)
+
+
+def _configure_logger(name, config, **opts):
+    loggers = config['loggers']
+    logger = loggers.get(name)
+    if not logger:
+        # Copy the root configuration.
+        logger = loggers[name] = dict(propagate=False)
+        logger.update(config['root'])
+
+    # If file logging is set, then direct messages to the file.
+    if opts.get('filename'):
+        logger['handlers'] = ['file']
 
     # The log level is set in both the logger and the handler,
     # and the more restrictive level applies. Therefore, set
     # the log level in both places.
     level = opts.pop('level', None)
     if level:
-        cfg['loggers'][app]['level'] = level
-        if 'file' in cfg['loggers'][app]['handlers']:
-            cfg['handlers']['file']['level'] = level
-        else:
-            cfg['handlers']['console']['level'] = level
+        # Set the logger level.
+        logger['level'] = level
+        # Set the handler levels.
+        for handler_key in logger['handlers']:
+            handler = config['handlers'][handler_key]
+            handler['level'] = level
 
     # Add the other options, if any.
-    qicollections.update(cfg, opts, recursive=True)
+    qicollections.update(config, opts, recursive=True)
 
-    # Ensure that the log file parent directory exists.
-    if 'file' in cfg['loggers'][app]['handlers']:
-        log_file = cfg['handlers']['file'].get('filename')
-        if not log_file:
-            raise ValueError("The logging configuration file handler is enabled"
-                             " but the log file name is not set.")
-        # Make the runtime path absolute for clarity.
-        log_file = os.path.abspath(log_file)
-        cfg['handlers']['file']['filename'] = log_file
-        # Make the log file parent directory, if necessary.
-        log_dir = os.path.dirname(log_file)
-        if log_dir and not os.path.exists(log_dir):
-            os.makedirs(log_dir)
-    # Configure logging.
-    logging.config.dictConfig(cfg)
-
-    # Set the logger configured flag.
-    setattr(logger, 'configured', True)
+    # Ensure that all log file parent directories exist.
+    for handler in config['handlers'].itervalues():
+        log_file = handler.get('filename')
+        if log_file:
+            # Make the log file parent directory, if necessary.
+            log_dir = os.path.dirname(log_file)
+            if log_dir and not os.path.exists(log_dir):
+                os.makedirs(log_dir)
+            # Make the log file path absolute for clarity.
+            handler['filename'] = os.path.abspath(log_file)
 
 
-LOG_CFG_ENV_VAR = 'LOG_CONFIG'
-"""The user-defined environment variable logging configuration file path."""
-
-LOG_CFG_FILE = 'logging.yaml'
-"""The optional current working directory logging configuration file name."""
-
-BASE_DIR = os.path.abspath(os.path.dirname(__file__))
-"""The ``qiutil`` package directory."""
-
-DEF_LOG_CFG = os.path.join(BASE_DIR, 'conf', LOG_CFG_FILE)
-"""The default application logging configuration file path."""
-
-
-def _load_config(app, cfg_file=None):
+def _load_config(cfg_file=None):
     """
     Loads the logger configuration files, as described in
     :meth:`qiutil.logging.configure`.
@@ -197,10 +232,6 @@ def _load_config(app, cfg_file=None):
     """
     # The base config file.
     config = _load_config_file(DEF_LOG_CFG)
-    # Rename the application logger.
-    loggers = config['loggers']
-    loggers[app] = loggers.pop('application')
-    
     # The custom configuration files.
     custom_cfg_files = _find_custom_config_files(cfg_file)
     # Load the custom configurations.
@@ -223,7 +254,7 @@ def _find_custom_config_files(cfg_file):
     """
     # The config files list.
     config_files = []
-    
+
     # The environment variable log configuration file.
     env_cfg_file = os.getenv(LOG_CFG_ENV_VAR, None)
     if env_cfg_file and os.path.exists(env_cfg_file):
@@ -238,7 +269,7 @@ def _find_custom_config_files(cfg_file):
         if os.path.exists(cfg_file):
             config_files.append(cfg_file)
         else:
-            raise ValueError("Configuration file not found: %s" % cfg_file)
+            raise LogError("Configuration file not found: %s" % cfg_file)
 
     return config_files
 

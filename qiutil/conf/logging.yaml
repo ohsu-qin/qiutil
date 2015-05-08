@@ -2,7 +2,7 @@
 version: 1
 
 # Loggers defined before this configuration are not disabled.
-disable_existing_loggers: False
+#disable_existing_loggers: False
 
 formatters:
   standard:
@@ -12,7 +12,7 @@ formatters:
 handlers:
   console:
     class: logging.StreamHandler
-    level: ERROR
+    level: WARN
     formatter: standard
     stream: ext://sys.stdout
   
@@ -28,11 +28,9 @@ handlers:
     backupCount: 4
     encoding: utf8
 
-loggers:
-  application:  # Renamed by the logging.configure function
-    level: INFO
-    handlers: [file]
-
 root:
+  # The root level can be reset by logging.configure level option.
   level: INFO
+  # file can be added to the handlers by the logging.configure
+  # filename option.
   handlers: [console]
