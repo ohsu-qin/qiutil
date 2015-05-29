@@ -1,6 +1,10 @@
 This history lists major release themes. See the GitHub commits
 for change details.
 
+2.2.2 / 2015-05-29
+-------------------
+* Add the functions module.
+
 2.2.1 / 2015-05-08
 -------------------
 * Improve logging.
