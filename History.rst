@@ -1,6 +1,10 @@
 This history lists major release themes. See the GitHub commits
 for change details.
 
+2.2.3 / 2015-06-01
+-------------------
+* Add the is_function method.
+
 2.2.2 / 2015-05-29
 -------------------
 * Add the functions module.

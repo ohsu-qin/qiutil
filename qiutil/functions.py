@@ -1,5 +1,14 @@
 """Utilities that operate on functions."""
 
+
+def is_function(obj):
+    """
+    :param obj: the object to check
+    :return: whether the object is callable
+    """
+    return hasattr(value, '__call')
+
+
 def compose(*functions):
     """
     Composes functions which take a single argument, e.g.:
