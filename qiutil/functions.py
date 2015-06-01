@@ -6,7 +6,8 @@ def is_function(obj):
     :param obj: the object to check
     :return: whether the object is callable
     """
-    return hasattr(value, '__call')
+    return hasattr(obj, '__call__')
+
 
 
 def compose(*functions):
