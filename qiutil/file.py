@@ -21,6 +21,9 @@ Regexp pattern that splits the name and extension.
 """
 
 
+class FileError(Exception):
+    pass
+
 @contextmanager
 def open(filename):
     """
@@ -168,8 +171,8 @@ class FileIterator(object):
           generated item
         
         :yield: the next file object or path
-        :raise IOError: if an iterated file path is neither a directory nor file
-        :raise ValueError: if an iterated item is not a file object, path
+        :raise FileError: if an iterated file path is neither a directory nor file
+        :raise FileError: if an iterated item is not a file object, path
             or generator
         """
         for spec in self._filespecs:
@@ -183,10 +186,10 @@ class FileIterator(object):
                         for fn in fnames:
                             yield os.path.join(root, fn)
                 else:
-                    raise IOError("File not found: %s" % spec)
+                    raise FileError("File not found: %s" % spec)
             elif inspect.isgenerator(spec):
                 for f in spec:
                     yield f
             else:
-                raise ValueError("File iteration item is not supported:"
+                raise FileError("File iteration item is not supported:"
                                  " %s" % spec.__class__)
