@@ -1,8 +1,7 @@
 import os
 import shutil
 from nose.tools import (assert_equal, assert_not_equal, assert_true)
-from qiutil import logging
-from qiutil.logging import logger
+from qiutil.logging import (logger, configure)
 from qiutil.cd import cd
 from .. import ROOT
 
@@ -26,7 +25,7 @@ class TestLogging(object):
         shutil.rmtree(RESULTS, True)
 
     def test_log_file(self):
-        logging.configure('test', filename=RESULT)
+        configure('test', filename=RESULT)
         logger('test').info("Test info log message.")
         logger('test').debug("Test debug log message.")
         assert_true(os.path.exists(RESULT),
@@ -37,7 +36,7 @@ class TestLogging(object):
         assert_equal(len(msgs), 1, "Extraneous log messages: %s" % msgs)
 
     def test_level(self):
-        logging.configure('test', filename=RESULT, level='DEBUG')
+        configure('test', filename=RESULT, level='DEBUG')
         logger('test').info("Test info log message.")
         logger('test').debug("Test debug log message.")
         assert_true(os.path.exists(RESULT),
@@ -53,7 +52,7 @@ class TestLogging(object):
         # Since the config fixture specifies a relative log file 'log/test.log',
         # run this test in the context of the results directory.
         with cd(RESULTS):
-            logging.configure('test', config=FIXTURE)
+            configure('test', config=FIXTURE)
             logger('test').info("Test info log message.")
         assert_true(os.path.exists(RESULT), "The log file was not created: %s" %
                                             RESULT)
