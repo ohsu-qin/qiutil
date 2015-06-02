@@ -3,7 +3,7 @@ for change details.
 
 2.2.3 / 2015-06-01
 -------------------
-* Add the is_function method.
+* Add the dates module and functions.is_function method.
 
 2.2.2 / 2015-05-29
 -------------------
