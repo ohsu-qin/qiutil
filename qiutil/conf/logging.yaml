@@ -1,7 +1,8 @@
 ---
 version: 1
 
-# Loggers defined before this configuration are not disabled.
+# Uncomment the following line to preserve loggers defined before
+# this configuration is applied.
 #disable_existing_loggers: False
 
 formatters:
@@ -29,8 +30,9 @@ handlers:
     encoding: utf8
 
 root:
-  # The root level can be reset by logging.configure level option.
+  # The root level can be reset by the logging.configure method level
+  # option.
   level: INFO
-  # file can be added to the handlers by the logging.configure
-  # filename option.
+  # The file handler can be added to the handlers by the
+  # logging.configure method filename option.
   handlers: [console]
