@@ -1,6 +1,14 @@
 This history lists major release themes. See the GitHub commits
 for change details.
 
+2.2.5 / 2015-06-03
+-------------------
+* Fix version number.
+
+2.2.4 / 2015-06-03
+-------------------
+* Standardize the generator iterators.
+
 2.2.3 / 2015-06-01
 -------------------
 * Add the dates module and functions.is_function method.
