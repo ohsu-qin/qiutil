@@ -3,6 +3,7 @@ import glob
 from nose.tools import (assert_equal, assert_raises, assert_true, assert_false)
 from qiutil import collections as qicollections
 
+
 class TestCollections(object):
 
     """collections unit tests."""

@@ -2,6 +2,7 @@ from datetime import datetime
 from nose.tools import assert_equal
 from qiutil import dates
 
+
 class TestDates(object):
     """Date utilities unit tests."""
 
