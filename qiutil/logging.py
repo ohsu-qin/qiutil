@@ -205,7 +205,6 @@ def _configure_logger(name, config, **opts):
         for handler_key in logger['handlers']:
             handler = config['handlers'][handler_key]
             handler['level'] = level
-
     # Add the other options, if any.
     qicollections.update(config, opts, recursive=True)
 
