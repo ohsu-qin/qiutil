@@ -152,9 +152,6 @@ class FileIterator(object):
         self._filespecs = filespecs
 
     def __iter__(self):
-        return self.next()
-
-    def next(self):
         """
         Iterates over the files as follows:
         

@@ -110,9 +110,6 @@ class ASTConfig(Config):
     """A non-list string parseable by AST."""
 
     def __iter__(self):
-        return self.next()
-
-    def next(self):
         """
         :yield: the next *(section, {item: value})* tuple
         """
