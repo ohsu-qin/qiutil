@@ -6,7 +6,6 @@ from copy import copy
 from collections import (Iterable, Mapping, defaultdict)
 import functools
 import six
-from . import string
 
 
 def is_nonstring_iterable(value):
