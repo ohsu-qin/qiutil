@@ -3,6 +3,7 @@
 import os
 from . import logging
 
+
 def add_options(parser):
     """
     Adds the standard ``--log``, ``--quiet``, ``--verbose`` and ``--debug``

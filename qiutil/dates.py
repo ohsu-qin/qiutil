@@ -1,5 +1,6 @@
 import calendar
 
+
 def anonymize(date, relative=False):
     """
     Returns a new date which is the middle of the given date's year, i.e.:

@@ -4,6 +4,7 @@ import subprocess
 import glob
 from setuptools import (setup, find_packages)
 
+
 def version(package):
     """
     Return package version as listed in the `__init.py__` `__version__`
@@ -19,7 +20,7 @@ def requires():
     """
     with open('requirements.txt') as f:
         return f.read().splitlines()
-        
+
 
 def readme():
     with open("README.rst") as f:
@@ -57,7 +58,7 @@ def readme():
 #   3. Add the package_data option to the setup call, e.g.:
 #
 #          package_data = dict(qiutil=['conf/*']),
-#  
+#
 #   4. Build the source distribution:
 #
 #          python setup.py sdist
