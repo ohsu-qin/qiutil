@@ -5,13 +5,16 @@ from __future__ import absolute_import
 from copy import copy
 from collections import (Iterable, Mapping, defaultdict)
 import functools
+import six
+from . import string
 
-def is_nonstring_iterable(obj):
+
+def is_nonstring_iterable(value):
     """
-    :param obj: the object to check
-    :return: whether the given object is a non-string iterable object
+    :param value: the object to check
+    :return: whether the given value is a non-string iterable object
     """
-    return isinstance(obj, Iterable) and not isinstance(obj, str)
+    return isinstance(value, Iterable) and not isinstance(value, six.string_types)
 
 
 def to_series(items, conjunction='and'):
@@ -36,6 +39,7 @@ def to_series(items, conjunction='and'):
         return suffix
     else:
         return (' ' + conjunction + ' ').join([prefix, suffix])
+
 
 def nested_defaultdict(factory, levels=0):
     """

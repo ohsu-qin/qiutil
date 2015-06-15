@@ -1,7 +1,7 @@
 import os
 import re
 import ast
-from ConfigParser import ConfigParser as Config
+from six.configParser import ConfigParser as Config
 from .collections import to_series
 
 from .logging import logger
