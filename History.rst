@@ -1,6 +1,10 @@
 This history lists major release themes. See the GitHub commits
 for change details.
 
+2.2.7 / 2015-07-07
+-------------------
+* Add concat function.
+
 2.2.6 / 2015-06-15
 -------------------
 * Python 3 compatibility.

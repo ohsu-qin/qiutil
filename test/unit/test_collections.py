@@ -5,7 +5,6 @@ from qiutil import collections as qicollections
 
 
 class TestCollections(object):
-
     """collections unit tests."""
 
     def test_is_nonstring_iterable(self):
@@ -13,6 +12,14 @@ class TestCollections(object):
             ['a', 'b']), "List is not recognized as a non-string collection")
         assert_false(qicollections.is_nonstring_iterable('a'),
                      "String is incorrectly recognized as a non-string collection")
+
+    def test_concat(self):
+        a_list = [1, 2]
+        a_set = {3}
+        an_iterable = (n + 3 for n in a_list)
+        concated = qicollections.concat(a_list, a_set, an_iterable)
+        assert_equal(concated, [1, 2, 3, 4, 5], "Concatenation is incorrect")
+
 
     def test_to_series(self):
         assert_equal(qicollections.to_series([1, 2, 3]), '1, 2 and 3',

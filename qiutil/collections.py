@@ -5,6 +5,7 @@ from __future__ import absolute_import
 from copy import copy
 from collections import (Iterable, Mapping, defaultdict)
 import functools
+import itertools
 import six
 
 
@@ -14,6 +15,15 @@ def is_nonstring_iterable(value):
     :return: whether the given value is a non-string iterable object
     """
     return isinstance(value, Iterable) and not isinstance(value, six.string_types)
+
+
+def concat(*iterables):
+    """
+    :param iterables: the iterables to concatenate
+    :return: the concatenated list
+    :rtype: list
+    """
+    return list(itertools.chain(*iterables))
 
 
 def to_series(items, conjunction='and'):
