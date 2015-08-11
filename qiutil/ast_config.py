@@ -2,27 +2,30 @@ import os
 import re
 import ast
 from six.moves.configparser import ConfigParser as Config
-from .collections import to_series
 from .logging import logger
 
 
-def read_config(*filenames):
+class ConfigError(Exception):
+    pass
+
+
+def read_config(*locations):
     """
-    Reads and parses the given configuration file.
+    Reads and parses the given configuration files.
     
-    :param filenames: the input configuration file names
+    :param locations: the input configuration file paths
     :return: the configuration
     :rtype: :class:`qiutil.ast_config.ASTConfig`
     :raise IOError: if no configuration files could not be read
     """
     cfg = ASTConfig()
-    filenames = [os.path.abspath(fname) for fname in filenames]
-    cfg_files = cfg.read(filenames)
+    locations = [os.path.abspath(path) for path in locations]
+    cfg_files = cfg.read(locations)
     if not cfg_files:
-        raise ValueError(
-            "Configuration file could not be read: %s" % filenames)
+        raise ConfigError(
+            "Configuration files could not be read: %s" % locations)
     logger(__name__).debug("Loaded configuration from %s with sections %s." %
-          (to_series(cfg_files), to_series(cfg.sections())))
+          (cfg_files, cfg.sections()))
 
     return cfg
 
