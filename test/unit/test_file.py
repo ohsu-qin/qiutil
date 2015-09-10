@@ -49,15 +49,25 @@ class TestFile(object):
                                    " longer than ten characters without the"
                                    " extension: %s" % fname)
 
-    def test_finder(self):
-        finder = qiutil.file.Finder('f*/*/*', 'fixtures/fil./(?P<base>\w+)\.txt(\.gz)?$')
-
+    def test_finder_match(self):
+        finder = qiutil.file.Finder('f*/*/*',
+                                    'fixtures/fil./(?P<base>\w+)\.txt(\.gz)?$')
+        # Test find.
         found = set(finder.find(ROOT))
-        expected = {ROOT + '/fixtures/file/simple.txt' + ext for ext in ['', '.gz']}
-        assert_equal(found, expected, "Found files incorrect: %s vs %s" % (found, expected))
-
+        expected = {FIXTURES + '/simple.txt' + ext for ext in ['', '.gz']}
+        assert_equal(found, expected, "Found files incorrect: %s vs %s" %
+                                      (found, expected))
+        # Test the match variables.
         matched = [m.group('base') for m in finder.match(ROOT)]
-        assert_equal(matched, ['simple'] * 2, "Matched files incorrect: %s" % matched)
+        assert_equal(matched, ['simple'] * 2, "Matched files incorrect: %s" %
+                                              matched)
+
+    def test_finder_defaults(self):
+        finder = qiutil.file.Finder()
+        found = set(finder.find(FIXTURES))
+        expected = {'/'.join((FIXTURES, fname)) for fname in os.listdir(FIXTURES)}
+        assert_equal(found, expected, "Default found files incorrect: %s vs %s" %
+                                      (found, expected))
 
 
 if __name__ == "__main__":

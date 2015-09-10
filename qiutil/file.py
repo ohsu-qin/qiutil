@@ -90,18 +90,18 @@ class Finder(object):
     Finder matches a file name glob pattern and regular expression.
     """
 
-    def __init__(self, glob, regex):
+    def __init__(self, glob='*', regex='.*'):
         """
         :param glob: the glob pattern string
         :param regex: the :class:`RegExp` object or pattern string
         """
-        self.glob = glob
-        """The glob pattern string."""
+        self.glob = glob or '*'
+        """The glob pattern string (default ``*``)."""
         
         if isinstance(regex, str):
             regex = re.compile(regex)
-        self.regex = regex
-        """The file match regular expression."""
+        self.regex = regex or '.*'
+        """The file match regular expression (default ``.*``)."""
 
     def match(self, base_dir=None):
         """
