@@ -26,6 +26,17 @@ def concat(*iterables):
     return list(itertools.chain(*iterables))
 
 
+def tuplize(iterable):
+    """
+    Recursively creates nested tuples from the given iterable object.
+    
+    :param iterable: the iterable to convert
+    :return: the comparable tuple
+    """
+    return tuple(tuplize(elt) if is_nonstring_iterable(elt) else elt
+                 for elt in iterable)
+
+
 def to_series(items, conjunction='and'):
     """
     Formats the given items as a series string.

@@ -1,6 +1,10 @@
 This history lists major release themes. See the GitHub commits
 for change details.
 
+2.2.9 / 2015-10-09
+-------------------
+* Add tuplize function.
+
 2.2.8 / 2015-09-10
 -------------------
 * Add file Finder defaults.
