@@ -30,16 +30,42 @@ class TestFile(object):
         assert_equal(base, 'simple',
                      "The splitexts base path is incorrect: %s" % base)
         assert_is_none(exts, "The splitexts extension is incorrect: %s" % exts)
+
         base, exts = qiutil.file.splitexts('./bar.txt')
         assert_equal(base, './bar',
                      "The splitexts base path is incorrect: %s" % base)
         assert_equal(exts, '.txt',
                      "The splitexts extension is incorrect: %s" % exts)
+
         base, exts = qiutil.file.splitexts('/tmp/foo.3/bar.txt.gz')
         assert_equal(base, '/tmp/foo.3/bar',
                      "The splitexts base path is incorrect: %s" % base)
         assert_equal(exts, '.txt.gz',
                      "The splitexts extensions is incorrect: %s" % exts)
+
+    def test_splitboth(self):
+        dir_path, base, exts = qiutil.file.splitboth('simple')
+        assert_is_none(dir_path, "The splitboth directory path is"
+                                 " incorrect: %s" % dir_path)
+        assert_equal(base, 'simple',
+                     "The splitboth base path is incorrect: %s" % base)
+        assert_is_none(exts, "The splitboth extension is incorrect: %s" % exts)
+
+        dir_path, base, exts = qiutil.file.splitboth('./bar.txt')
+        assert_equal(dir_path, '.', "The splitboth directory path is"
+                                 " incorrect: %s" % dir_path)
+        assert_equal(base, 'bar',
+                     "The splitboth base path is incorrect: %s" % base)
+        assert_equal(exts, '.txt',
+                     "The splitboth extension is incorrect: %s" % exts)
+
+        dir_path, base, exts = qiutil.file.splitboth('/tmp/foo.3/bar.txt.gz')
+        assert_equal(dir_path, '/tmp/foo.3', "The splitboth directory path is"
+                                             " incorrect: %s" % dir_path)
+        assert_equal(base, 'bar',
+                     "The splitboth base path is incorrect: %s" % base)
+        assert_equal(exts, '.txt.gz',
+                     "The splitboth extensions is incorrect: %s" % exts)
         
     def test_generate_file_name(self):
       fname = qiutil.file.generate_file_name('.txt')

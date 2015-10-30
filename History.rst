@@ -1,9 +1,13 @@
 This history lists major release themes. See the GitHub commits
 for change details.
 
+2.2.10 / 2015-10-29
+-------------------
+* Add file.splitboth function.
+
 2.2.9 / 2015-10-09
 -------------------
-* Add tuplize function.
+* Add collections.tuplize function.
 
 2.2.8 / 2015-09-10
 -------------------

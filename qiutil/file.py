@@ -46,7 +46,7 @@ def open(filename):
         yield fp
 
 
-def splitexts(path):
+def splitexts(location):
     """
     Splits the given file path into a name and extension.
     Unlike ``os.path.splitext``, the resulting extension can be composite.
@@ -60,14 +60,38 @@ def splitexts(path):
     >>> splitexts('/tmp/foo.3/bar.nii.gz')
     ('/tmp/foo.3/bar', '.nii.gz')
     
-    :param path: the file path
+    :param location: the file path
     :return: the *(prefix, extensions)* tuple
     """
-    matches = SPLITEXT_PAT.match(path).groups()[:2]
+    matches = SPLITEXT_PAT.match(location).groups()[:2]
     # Pad with an empty extension, if necessary.
     matches += (None,) * (2 - len(matches))
     
     return tuple(matches)
+
+
+def splitboth(location):
+    """
+    Splits the given file path into a directory, name and extension.
+    Unlike ``os.path.splitext``, the resulting extension can be
+    composite.
+    
+    Example:
+    
+    >>> import os
+    >>> from qiutil.file import splitall
+    >>> splitall('/tmp/foo.nii.gz')
+    ('/tmp', 'foo', '.nii.gz')
+    
+    :param location: the file path
+    :return: the *(directory, prefix, extensions)* tuple
+    """
+    prefix, exts = splitexts(location)
+    dir_path, base = os.path.split(prefix)
+    if dir_path == '':
+        dir_path = None
+
+    return (dir_path, base, exts)
 
 
 def generate_file_name(ext=None):
