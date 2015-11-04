@@ -1,6 +1,10 @@
 This history lists major release themes. See the GitHub commits
 for change details.
 
+2.2.11 / 2015-10-30
+-------------------
+* Rebuild corrupted 2.2.10 release.
+
 2.2.10 / 2015-10-29
 -------------------
 * Add file.splitboth function.
