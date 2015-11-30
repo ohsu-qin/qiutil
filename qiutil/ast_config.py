@@ -31,7 +31,6 @@ def read_config(*locations):
 
 
 class ASTConfig(Config):
-
     """
     ASTConfig parses a configuration file with AST property values as
     follows:
