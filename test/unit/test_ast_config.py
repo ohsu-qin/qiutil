@@ -9,10 +9,9 @@ FIXTURE = os.path.join(ROOT, 'fixtures', 'ast_config', 'tuning.cfg')
 
 
 class TestASTConfig(object):
-
     """The ASTConfig unit tests."""
 
-    def test_config(self):
+    def test_read(self):
         logger(__name__).debug("Testing the JSON configuration loader on"
                                " %s..." % FIXTURE)
         cfg = read_config(FIXTURE)

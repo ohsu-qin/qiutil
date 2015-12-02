@@ -225,7 +225,6 @@ def _update_collection(target, source):
 
 
 class ImmutableDict(dict):
-
     """
     ImmutableDict is a dictionary that cannot be changed after creation.
 

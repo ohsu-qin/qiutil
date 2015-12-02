@@ -6,7 +6,6 @@ from ..helpers.logging import logger
 
 
 class TestHierarchy(object):
-
     """DictionaryHierarchy unit tests."""
 
     def test_flat(self):
