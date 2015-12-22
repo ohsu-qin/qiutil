@@ -12,7 +12,7 @@ class ConfigError(Exception):
 def read_config(*locations):
     """
     Reads and parses the given configuration files.
-    
+
     :param locations: the input configuration file paths
     :return: the configuration
     :rtype: :class:`qiutil.ast_config.ASTConfig`
@@ -34,16 +34,27 @@ class ASTConfig(Config):
     """
     ASTConfig parses a configuration file with AST property values as
     follows:
-    
-    * Strings are quoted, if necessary.
-    
-    * A bracketed value is parsed as a list.
-    
+
+    * An unquoted digits value is parsed as an integer.
+
+    * An unquoted digits value with a single period is parsed as a float.
+
+    * A ``[]`` bracketed value is parsed as a list.
+
+    * A ``()`` bracketed value is parsed as a tuple.
+
+    * A ``{}`` bracketed value is parsed as a dictionary.
+
     * A case-insensitive match on ``true`` or ``false`` is parsed
       as the Python object ``True``, resp. ``False``.
-    
+
+    * A case-insensitive match on ``none``, ``null`` or ``nil`` is
+      parsed as the Python ``None`` object.
+
+    * All other values are parsed as string.
+
     For example, given the configuration file ``tuning.cfg`` with content::
-        
+
         [Tuning]
         method = FFT
         iterations = [[1, 2], 5]
@@ -51,9 +62,9 @@ class ASTConfig(Config):
         two_tailed = false
         threshold = 4.0
         plugin_args = {'qsub_args': '-pe mpi 48-120'}
-    
+
     then::
-    
+
         >>> cfg = ASTConfig('tuning.cfg')
         >>> cfg['Tuning']
         {'method': u'FFT', 'parameters' = [(1,), (2, 3), -0.4],
@@ -62,38 +73,38 @@ class ASTConfig(Config):
          'plugin_args': {'qsub_args': '-pe mpi 48-120'}}
     """
 
-    BUNCH_PAT = """
+    COLL_PAT = """
         \%(left)s   # The left delimiter
         (.*)        # The list items
         \%(right)s$ # The right delimiter
         """
     """A bunch string pattern."""
 
-    LIST_PAT = re.compile(BUNCH_PAT % dict(left='[', right=']'), re.VERBOSE)
+    LIST_PAT = re.compile(COLL_PAT % dict(left='[', right=']'), re.VERBOSE)
     """A list string pattern."""
 
-    TUPLE_PAT = re.compile(BUNCH_PAT % dict(left='(', right=')'), re.VERBOSE)
+    TUPLE_PAT = re.compile(COLL_PAT % dict(left='(', right=')'), re.VERBOSE)
     """A tuple string pattern."""
 
-    DICT_PAT = re.compile(BUNCH_PAT % dict(left='{', right='}'), re.VERBOSE)
+    DICT_PAT = re.compile(COLL_PAT % dict(left='{', right='}'), re.VERBOSE)
     """A dictionary string pattern."""
 
-    EMBEDDED_BUNCH_PAT = """
+    EMBEDDED_COLL_PAT = """
         ([^%(left)s]*)          # A prefix without the left delimiter
         (\%(left)s.*\%(right)s)? # The embedded item
         ([^%(right)s]*)         # A suffix without the right delimiter
         $                       # The end of the value
     """
 
-    EMBEDDED_LIST_PAT = re.compile(EMBEDDED_BUNCH_PAT %
+    EMBEDDED_LIST_PAT = re.compile(EMBEDDED_COLL_PAT %
                                    dict(left='[', right=']'), re.VERBOSE)
     """A (prefix)(list)(suffix) recognition pattern."""
 
-    EMBEDDED_TUPLE_PAT = re.compile(EMBEDDED_BUNCH_PAT %
+    EMBEDDED_TUPLE_PAT = re.compile(EMBEDDED_COLL_PAT %
                                     dict(left='(', right=')'), re.VERBOSE)
     """A (prefix)(tuple)(suffix) recognition pattern."""
 
-    EMBEDDED_DICT_PAT = re.compile(EMBEDDED_BUNCH_PAT %
+    EMBEDDED_DICT_PAT = re.compile(EMBEDDED_COLL_PAT %
                                    dict(left='{', right='}'), re.VERBOSE)
     """A (prefix)(dictionary)(suffix) recognition pattern."""
 
@@ -166,11 +177,12 @@ class ASTConfig(Config):
         # Otherwise, quote the content.
         if self._is_bunch(s):
             return self._quote_bunch(s)
-        elif s.lower() == 'true':
+        s_lc = s.lower()
+        if s_lc == 'true':
             return 'True'
-        elif s.lower() == 'false':
+        elif s_lc == 'false':
             return 'False'
-        elif s.lower() in ['null', 'none', 'nil']:
+        elif s_lc in ['none', 'null', 'nil']:
             return 'None'
         else:
             return '"%s"' % s.replace('"', '\\"')
