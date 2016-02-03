@@ -6,6 +6,7 @@ from .logging import logger
 
 
 class ConfigError(Exception):
+    """Configuration parsing error."""
     pass
 
 
