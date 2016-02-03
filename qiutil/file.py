@@ -10,7 +10,7 @@ from .uid import generate_string_uid
 SPLITEXT_PAT = re.compile("""
     (.*?)           # The file path without the extension
     (               # The extension group
-        (\.\w+)+    # The (possibly composite) extension
+      (\.\w+)+      # The (possibly composite) extension
     )?              # The extension is optional
     $               # Anchor to the end of the file path
     """, re.VERBOSE)
