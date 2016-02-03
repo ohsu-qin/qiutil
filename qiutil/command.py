@@ -22,7 +22,7 @@ def add_options(parser):
 def configure_log(*names, **opts):
     """
     Configures the logger.
-
+    
     :param names: the loggers to configure
     :param opts: the following keyword options:
     :keyword log: the log file

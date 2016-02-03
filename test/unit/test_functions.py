@@ -1,11 +1,11 @@
 from math import tan, atan, floor, pi
 from nose.tools import (assert_true, assert_false, assert_equal)
-from qiutil import functions 
+from qiutil import functions
 
 
 class TestFunctions(object):
     """function utilities unit tests."""
-
+    
     def test_is_function(self):
         assert_true(functions.is_function(functions.is_function),
                     "Method is not recognized as a function: %s" %
@@ -16,7 +16,7 @@ class TestFunctions(object):
         assert_false(functions.is_function(2),
                      "Integer is incorrectly recognized as a function")
 
-
+    
     def test_compose(self):
         ident = functions.compose(int, floor, tan, atan)
         actual = ident(pi)

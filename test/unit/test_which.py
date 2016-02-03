@@ -6,7 +6,7 @@ from qiutil import which
 
 class TestWhich(object):
     """which unit tests."""
-
+    
     def test_which(self):
         python_path = which.which('python')
         assert_is_not_none(python_path, 'python is not discovered in the'

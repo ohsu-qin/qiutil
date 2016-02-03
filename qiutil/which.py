@@ -25,7 +25,7 @@ def which(program):
             exe_file = os.path.join(path, program)
             if _is_executable(exe_file):
                 return exe_file
-
+    
     return None
 
 

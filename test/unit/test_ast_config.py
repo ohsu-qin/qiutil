@@ -11,7 +11,7 @@ FIXTURE = os.path.join(ROOT, 'fixtures', 'ast_config', 'tuning.cfg')
 
 class TestASTConfig(object):
     """The ASTConfig unit tests."""
-
+    
     def test_read(self):
         logger(__name__).debug("Testing the JSON configuration loader on"
                                " %s..." % FIXTURE)
@@ -29,10 +29,10 @@ class TestASTConfig(object):
                         plugin_args=dict(
                             qsub_args='-pe mpi 48-120 -l h_rt=4:00:00,mf=2G'' -b n',
                             overwrite=True))
-
+        
         assert_equal(opts, expected, "The configuration Tuning options are"
                      " incorrect: %s" % opts)
-
+    
     def test_write(self):
         # The test config.
         expected_cfg = read_config(FIXTURE)
@@ -68,5 +68,5 @@ class TestASTConfig(object):
 
 if __name__ == "__main__":
     import nose
-
+    
     nose.main(defaultTest=__name__)

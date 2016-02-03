@@ -5,7 +5,7 @@ import base64
 
 
 def generate_uid(year=None):
-  
+    
     """
     Makes an id that is unique to within one microsecond of calling
     this function for the execution context which runs this method.

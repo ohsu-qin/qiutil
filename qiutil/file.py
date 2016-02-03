@@ -29,7 +29,7 @@ def open(filename):
     """
     Opens the given file. If the file extension ends in ``.gz``,
     then the content is uncompressed.
-
+    
     :param filename: the file path
     :return: the file input stream
     :raise: IOError if the file cannot be read
@@ -40,7 +40,7 @@ def open(filename):
         context = gzip.open
     else:
         context = __builtin__.open
-
+    
     # Open the file.
     with context(filename) as fp:
         yield fp
@@ -90,7 +90,7 @@ def splitboth(location):
     dir_path, base = os.path.split(prefix)
     if dir_path == '':
         dir_path = None
-
+    
     return (dir_path, base, exts)
 
 
@@ -113,7 +113,7 @@ class Finder(object):
     """
     Finder matches a file name glob pattern and regular expression.
     """
-
+    
     def __init__(self, glob='*', regex='.*'):
         """
         :param glob: the glob pattern string
@@ -126,7 +126,7 @@ class Finder(object):
             regex = re.compile(regex)
         self.regex = regex or '.*'
         """The file match regular expression (default ``.*``)."""
-
+    
     def match(self, base_dir=None):
         """
         Iterates over the matches on both the :attr:`glob` and the
@@ -148,7 +148,7 @@ class Finder(object):
             match = self.regex.match(rel_path)
             if match:
                 yield match
-
+    
     def find(self, base_dir=None):
         """
         Iterates over the files which match both the :attr:`glob` and the
@@ -167,14 +167,14 @@ class FileIterator(object):
     FileIterator is a generator class which iterates over the files contained
     recursively in the initializer *filespecs* parameters.
     """
-
+    
     def __init__(self, *filespecs):
         """
         :param filespecs: the files, directories or file generators over which
             to iterate
         """
         self._filespecs = filespecs
-
+    
     def __iter__(self):
         """
         Iterates over the files as follows:

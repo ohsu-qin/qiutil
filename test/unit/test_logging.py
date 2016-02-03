@@ -17,13 +17,13 @@ RESULT = os.path.join(RESULTS, 'log', 'test.log')
 
 class TestLogging(object):
     """The logging unit tests."""
-
+    
     def setUp(self):
         shutil.rmtree(RESULTS, True)
-
+    
     def tearDown(self):
         shutil.rmtree(RESULTS, True)
-
+    
     def test_log_file(self):
         configure('test', filename=RESULT)
         logger('test').info("Test info log message.")
@@ -34,7 +34,7 @@ class TestLogging(object):
             msgs = fs.readlines()
         assert_true(not not msgs, "No log messages in %s" % RESULT)
         assert_equal(len(msgs), 1, "Extraneous log messages: %s" % msgs)
-
+    
     def test_level(self):
         configure('test', filename=RESULT, level='DEBUG')
         logger('test').info("Test info log message.")
@@ -46,7 +46,7 @@ class TestLogging(object):
         assert_true(not not msgs, "No log messages in %s" % RESULT)
         assert_not_equal(len(msgs), 1, "Missing log messages in %s" % RESULT)
         assert_equal(len(msgs), 2, "Extraneous log messages in %s" % RESULT)
-
+    
     def test_config_file(self):
         os.makedirs(RESULTS)
         # Since the config fixture specifies a relative log file 'log/test.log',
@@ -65,5 +65,5 @@ class TestLogging(object):
 
 if __name__ == "__main__":
     import nose
-
+    
     nose.main(defaultTest=__name__)

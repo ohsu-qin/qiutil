@@ -15,9 +15,9 @@ class DictionaryHierarchy(object):
     enumerates the root -> leaf paths.
     
     For example, the hierarchy of a nested dictionary given by::
-    
+        
         1 : 'a'
-        2 : 
+        2 :
           3 : 'b'
           4 : 'c', 'd'
           6 :
@@ -25,7 +25,7 @@ class DictionaryHierarchy(object):
         8 : 'f'
     
     results in the following paths::
-    
+        
         1, 'a'
         2, 3, 'b'
         2, 4, 'c'
@@ -33,34 +33,34 @@ class DictionaryHierarchy(object):
         2, 6, 7, 'e'
         8, 'f'
     """
-
+    
     def __init__(self, root):
         """
         :param root: the nested dictionary to wrap by this hierarchy
         :type root: dict
-        :raise ArgumentError: if the given root is not a dictionary 
+        :raise ArgumentError: if the given root is not a dictionary
         """
         if not isinstance(root, dict):
             raise TypeError(
                 "The dictionary hierarchy root is not a dictionary: {1}" % root)
         self.root = root
-
+    
     def __iter__(self):
         return self.Iterator(self.root)
-
+    
     class Iterator(object):
         def __init__(self, root):
             """
             :param root: the nested dictionary to iterate over
             :type root: dict
-            :raise ArgumentError: if the given root is not a dictionary 
+            :raise ArgumentError: if the given root is not a dictionary
             """
             self.base = root.iteritems()
             self.child = self.path = None
-
+        
         def __iter__(self):
             return self
-
+        
         def next(self):
             """
             Returns the next root-to-leaf path, determined as follows:
@@ -74,7 +74,7 @@ class DictionaryHierarchy(object):
               path tails given by that value's iteration.
             
             - Otherwise, the last member in the path is the value.
-        
+            
             :yield: the next path list
             """
             if self.child:
@@ -85,7 +85,7 @@ class DictionaryHierarchy(object):
                 except StopIteration:
                     # Not an error; iterate to the next child.
                     self.child = None
-
+            
             # Iterate to the next (key, value) pair.
             key, value = self.base.next()
             # The path begins with the key.

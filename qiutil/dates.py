@@ -21,5 +21,5 @@ def anonymize(date, relative=False):
     :rtype: datetime
     """
     day = 2 if calendar.isleap(date.year) else 1
-
+    
     return date.replace(month=7, day=day)

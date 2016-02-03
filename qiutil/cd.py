@@ -5,13 +5,13 @@ from contextlib import contextmanager
 def cd(path):
     """
     Safely changes directory in a ``with`` context, e.g.::
-    
+        
         from qiutil.cd import cd
         with cd('/path/to/dir'):
-            # Do something...  
+            # Do something...
     
     This :meth:`cd` function is functionally equivalent to the
-    `Grizzled <http://software.clapper.org/grizzled-python/>` 
+    `Grizzled <http://software.clapper.org/grizzled-python/>`
     ``working_directory`` function. It is included in this
     ``qiutil`` package for convenience.
     

@@ -7,14 +7,14 @@ from ..helpers.logging import logger
 
 class TestHierarchy(object):
     """DictionaryHierarchy unit tests."""
-
+    
     def test_flat(self):
         assert_equal([[1, '1']], list(hierarchy.on({1: '1'})))
-
+    
     def test_nested(self):
         """
         Tests that the hierarchy of a nested dictionary given by:
-
+        
         1 : '1'
         2 :
           3 : '3'
@@ -22,9 +22,9 @@ class TestHierarchy(object):
           6 :
             7 : '7'
         8 : '8'
-
+        
         results in the following paths:
-
+        
         1, '1'
         2, 3, '3'
         2, 4, '4'

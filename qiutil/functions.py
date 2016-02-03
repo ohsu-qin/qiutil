@@ -19,7 +19,7 @@ def compose(*functions):
     >> ident = compose(tan, atan)
     >> assert_almost_equal(ident(pi), pi)
     True
-
+    
     :param functions: the functions to compose, in reverse order of
         application (outer to inner)
     :return: the function to apply the composition to a value
