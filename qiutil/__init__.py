@@ -1,6 +1,6 @@
 """The Quantitative Imaging utility module."""
 
-__version__ = '2.2.12'
+__version__ = '2.2.13'
 """
 The *major*\ .\ *minor*\ .\ *patch* version.
 The verson numbering scheme is described in
@@ -19,4 +19,4 @@ The verson numbering scheme is described in
 #   with qifile.open(...): # Awkward
 #
 # Import command as well, since it is a common module name.
-from . import (collections, command, file, logging) 
+from . import (collections, command, file, logging)
