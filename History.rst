@@ -1,9 +1,13 @@
 This history lists major release themes. See the GitHub commits
 for change details.
 
+2.2.14 / 2017-04-18
+-------------------
+* Finder match does not include the base path.
+
 2.2.13 / 2017-04-18
 -------------------
-* Finder returns the absolute file path.
+* Finder find returns the absolute file path.
 
 2.2.12 / 2015-12-23
 -------------------
