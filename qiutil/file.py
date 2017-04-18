@@ -130,7 +130,7 @@ class Finder(object):
     def find(self, base_dir=None):
         """
         Iterates over the files which match both the :attr:`glob` and the
-        :attr:`regex`.
+        :attr:`regex`. Each iteration result is an absolute file path.
 
         :param: the parent base directory path (default current directory)
         :yield: the next matching absolute file path
@@ -139,24 +139,26 @@ class Finder(object):
             base_dir = os.getcwd()
         abs_dir = os.path.abspath(base_dir)
         for match in self.match(base_dir):
-            # Restore the base directory prefix.
             yield os.path.join(abs_dir, match.group(0))
 
     def match(self, base_dir=None):
         """
         Iterates over the files which match both the :attr:`glob` and the
-        :attr:`regex`.
+        :attr:`regex`. The match result does not include the base
+        directory.
 
-        :param: the parent base directory path
+        :param: the parent base directory path (default current directory)
         :yield: the next match
         """
+        if not base_dir:
+            base_dir = os.getcwd()
         # The primary glob match.
         files = glob.iglob('/'.join((base_dir, self.glob)))
         # Apply the secondary regex filter.
         prefix_len = len(base_dir) + 1
-        for path in files:
+        for location in files:
             # Chop off the base directory prefix.
-            rel_path = path[prefix_len:]
+            rel_path = location[prefix_len:]
             # Match on the rest of the file path.
             match = self.regex.match(rel_path)
             if match:
