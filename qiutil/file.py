@@ -29,7 +29,7 @@ def open(filename):
     """
     Opens the given file. If the file extension ends in ``.gz``,
     then the content is uncompressed.
-    
+
     :param filename: the file path
     :return: the file input stream
     :raise: IOError if the file cannot be read
@@ -40,7 +40,7 @@ def open(filename):
         context = gzip.open
     else:
         context = __builtin__.open
-    
+
     # Open the file.
     with context(filename) as fp:
         yield fp
@@ -50,23 +50,23 @@ def splitexts(location):
     """
     Splits the given file path into a name and extension.
     Unlike ``os.path.splitext``, the resulting extension can be composite.
-    
+
     Example:
-    
+
     >>> import os
     >>> os.path.splitext('/tmp/foo.nii.gz')
     ('/tmp/foo.nii', '.gz')
     >>> from qiutil.file import splitexts
     >>> splitexts('/tmp/foo.3/bar.nii.gz')
     ('/tmp/foo.3/bar', '.nii.gz')
-    
+
     :param location: the file path
     :return: the *(prefix, extensions)* tuple
     """
     matches = SPLITEXT_PAT.match(location).groups()[:2]
     # Pad with an empty extension, if necessary.
     matches += (None,) * (2 - len(matches))
-    
+
     return tuple(matches)
 
 
@@ -75,14 +75,14 @@ def splitboth(location):
     Splits the given file path into a directory, name and extension.
     Unlike ``os.path.splitext``, the resulting extension can be
     composite.
-    
+
     Example:
-    
+
     >>> import os
     >>> from qiutil.file import splitall
     >>> splitall('/tmp/foo.nii.gz')
     ('/tmp', 'foo', '.nii.gz')
-    
+
     :param location: the file path
     :return: the *(directory, prefix, extensions)* tuple
     """
@@ -90,7 +90,7 @@ def splitboth(location):
     dir_path, base = os.path.split(prefix)
     if dir_path == '':
         dir_path = None
-    
+
     return (dir_path, base, exts)
 
 
@@ -98,7 +98,7 @@ def generate_file_name(ext=None):
     """
     Makes a valid file name which is unique to within one microsecond of calling
     this function. The file name is ten characters long without the extension.
-    
+
     :param ext: the optional file extension, with leading period delimiter
     :return: the file name
     """
@@ -113,7 +113,7 @@ class Finder(object):
     """
     Finder matches a file name glob pattern and regular expression.
     """
-    
+
     def __init__(self, glob='*', regex='.*'):
         """
         :param glob: the glob pattern string
@@ -121,22 +121,35 @@ class Finder(object):
         """
         self.glob = glob or '*'
         """The glob pattern string (default ``*``)."""
-        
+
         if isinstance(regex, str):
             regex = re.compile(regex)
         self.regex = regex or '.*'
         """The file match regular expression (default ``.*``)."""
-    
-    def match(self, base_dir=None):
+
+    def find(self, base_dir=None):
         """
-        Iterates over the matches on both the :attr:`glob` and the
+        Iterates over the files which match both the :attr:`glob` and the
         :attr:`regex`.
-        
+
         :param: the parent base directory path (default current directory)
-        :yield: the next match
+        :yield: the next matching absolute file path
         """
         if not base_dir:
             base_dir = os.getcwd()
+        abs_dir = os.path.abspath(base_dir)
+        for match in self.match(base_dir):
+            # Restore the base directory prefix.
+            yield os.path.join(abs_dir, match.group(0))
+
+    def match(self, base_dir=None):
+        """
+        Iterates over the files which match both the :attr:`glob` and the
+        :attr:`regex`.
+
+        :param: the parent base directory path
+        :yield: the next match
+        """
         # The primary glob match.
         files = glob.iglob('/'.join((base_dir, self.glob)))
         # Apply the secondary regex filter.
@@ -148,18 +161,6 @@ class Finder(object):
             match = self.regex.match(rel_path)
             if match:
                 yield match
-    
-    def find(self, base_dir=None):
-        """
-        Iterates over the files which match both the :attr:`glob` and the
-        :attr:`regex`.
-        
-        :param: the parent base directory path (default current directory)
-        :yield: the next matching file path
-        """
-        for match in self.match(base_dir):
-            # Restore the base directory prefix.
-            yield os.path.join(base_dir, match.group(0))
 
 
 class FileIterator(object):
@@ -167,30 +168,30 @@ class FileIterator(object):
     FileIterator is a generator class which iterates over the files contained
     recursively in the initializer *filespecs* parameters.
     """
-    
+
     def __init__(self, *filespecs):
         """
         :param filespecs: the files, directories or file generators over which
             to iterate
         """
         self._filespecs = filespecs
-    
+
     def __iter__(self):
         """
         Iterates over the files as follows:
-        
+
         - If the current file specification is a file object, then yield that
           file object.
-        
+
         - If the current file specification is a non-directory file path,
           then yield that file path.
-        
+
         - If the current file specification is a directory, then yield each file
           contained recursively in that directory.
-        
+
         - If the current file specification is a generator, then yield each
           generated item
-        
+
         :yield: the next file object or path
         :raise FileError: if an iterated file path is neither a directory nor file
         :raise FileError: if an iterated item is not a file object, path
