@@ -1,6 +1,10 @@
 This history lists major release themes. See the GitHub commits
 for change details.
 
+2.2.15 / 2017-04-28
+-------------------
+* Use scandir file traversal for efficiency.
+
 2.2.14 / 2017-04-18
 -------------------
 * Finder match does not include the base path.

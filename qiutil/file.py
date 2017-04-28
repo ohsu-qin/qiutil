@@ -4,6 +4,7 @@ import glob
 import re
 import inspect
 import gzip
+import scandir
 from contextlib import contextmanager
 from .uid import generate_string_uid
 
@@ -206,9 +207,9 @@ class FileIterator(object):
                 if os.path.isfile(spec):
                     yield spec
                 elif os.path.isdir(spec):
-                    for root, dirs, fnames in os.walk(spec):
-                        for fn in fnames:
-                            yield os.path.join(root, fn)
+                    for root, dirs, files in scandir.walk(spec):
+                        for f in files:
+                            yield os.path.join(root, f)
                 else:
                     raise FileError("File not found: %s" % spec)
             elif inspect.isgenerator(spec):
