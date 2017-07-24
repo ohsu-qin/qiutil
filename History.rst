@@ -1,6 +1,10 @@
 This history lists major release themes. See the GitHub commits
 for change details.
 
+2.3.1 / 2017-07-24
+------------------
+* Add uid modulo option.
+
 2.2.15 / 2017-04-28
 -------------------
 * Use scandir file traversal for efficiency.
